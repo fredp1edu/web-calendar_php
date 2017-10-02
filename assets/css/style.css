@@ -1,0 +1,95 @@
+body {
+    background-color: rgb(119,136, 153);
+    font-family: "Georgia", serif;
+    font-size 1.2rem;
+}
+#content {
+    display: block;
+    width: 812px;
+    margin: 15% auto 1%;
+    padding: 10px;
+    background-color: rgb(255,255,255);
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    border: 2px solid rgb(0,0,0);
+    box-shadow: 0 0 14px rgb(17,34,51);
+}
+h2, p {
+    margin: 0 auto 14px;
+    text-align: center;
+}
+ul {
+    display: block;
+    clear: left;
+    height: 82px;
+    width: 812px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    background-clip: rgb(255,255,255);
+    text-align: center;
+    border: 1px solid rgb(0,0,0);
+    border-top: 0;
+    border-bottom: 2px solid rgb(0,0,0);
+}
+li {
+    position: relative;
+    float: left;
+    margin: 0;
+    padding: 20px 2px 2px;
+    border-left: 1px solid rgb(0,0,0);
+    border-right: 1px solid rgb(0,0,0);
+    width: 110px;
+    height: 60px;
+    overflow: hidden;
+    background-color: rgb(255,255,255);
+}
+li:hover {
+    background-color: rgb(255,204,107);
+    z-index: 1;
+    box-shadow: 0 0 0 10px rgb(119,136,153);
+}
+.weekdays li {
+    height: 16px;
+    padding: 2px 2px;
+    background-color: rgb(187,204,255);
+}
+.fill {
+    background-color: rgb(107,204,221);
+}
+.weekdays li:hover, li.fill:hover {
+    background-color: rgb(107,204,221);
+    box-shadow: none;
+}
+li strong {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+li a {
+    position: relative;
+    display: block;
+    border: 1px dotted rgb(0,0,0);
+    margin: 2px;
+    padding: 2px;
+    font-size: 1rem;
+    background-color: rgb(221,235,255);
+    text-align: left;
+    border-radius: 6px;
+    z-index: 1;
+    text-decoration: none;
+    color: rgb(0,0,0);
+    font-weight: 900;
+    font-style: italic;
+}
+li a:hover {
+    background-color: rgb(107,204,221);
+    z-index: 2;
+    box-shadow: 0 0 6px rgb(119,136,153);
+}
+
+
+
+
+

@@ -1,0 +1,48 @@
+fieldset {
+    border: 0;
+}
+legend {
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+input[type=text], input[type=password], label {
+    display: block;
+    width: 70%;
+    font-weight: 900;
+}
+textarea {
+    width: 90%;
+    height: 200px;
+}
+input[type=text], input[type=password], textarea {
+    border: 1px solid rgb(0,0,0);
+    border-radius: 6px;
+    box-shadow: inset 1px 2px 4px rgb(119,136,153);
+    padding: 4px;
+    margin: 0 0 1%;
+    font-size: 1.2rem;
+    font-family: "Georgia", serif;
+}
+#btnEdit {
+    display: block;
+}
+.admin-options form, .admin-options p {
+    display: inline;
+}
+a.admin {
+    display: inline-block;
+    margin: 4px 0;
+    padding: 4px;
+    border: 1px solid rgb(0,0,0);
+    border-radius: 6px;
+    box-shadow: inset -2px -1px rgb(3px 51,68,85),
+        inset 1px 1px 3px rgb(187,204,255),
+        1px 2px 6px rgb(119,136,153);
+    background-color: rgb(119,136,153);
+    color: rgb(0,0,0);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 1.2rem;
+    text-shadow: 0px 0px 1px rgb(255,255,255);
+}
