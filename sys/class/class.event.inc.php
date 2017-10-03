@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 class Event {
 
@@ -23,7 +23,17 @@ class Event {
             $this->end = $event['event_end'];
             $this->rem = $event['event_rem'];
         } else {
-            throw new Exception("No event data was supplied.");
+            if ($event == 'form') {
+                $this->id = '';
+                $this->title = '';
+                $this->loc = '';
+                $this->type = '';
+                $this->desc = '';
+                $this->start = '';
+                $this->end = '';
+                $this->rem = '';
+            } else 
+                throw new Exception("No event data was supplied.");
         }
     }
 }
