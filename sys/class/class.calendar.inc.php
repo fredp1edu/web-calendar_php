@@ -99,7 +99,10 @@ class Calendar extends DB_Connect {
             ++$i;
         }
         $html .= "\n\t</ul>\n\n";
-        return $html;
+        
+        $admin = $this->_adminGeneralOptions();
+        
+        return $html . $admin;
     }
     public function displayEvent($id) {
         if (empty($id))
@@ -112,12 +115,13 @@ class Calendar extends DB_Connect {
         $end = date('g:ia', strtotime($event->end));
         $rem = ($event->rem == NULL || $event->rem == '0000-00-00 00:00:00') ? 
             "no reminder set" : date('g:ia', strtotime($event_rem));
+        $admin = $this->_adminEntryOptions($id);
         
         return "<h2>$event->title</h2>" .
                 "\n\t<p class=\"para date\">$date &mdash; $start&mdash;$end</p>" .
                 "\n\t<p class=\"para loc\">$event->loc</p>" .
                 "\n\t<p class=\"para desc\">$event->desc</p>" .
-                "\n\t<p class=\"para date\">Reminder: $rem</p>";
+                "\n\t<p class=\"para date\">Reminder: $rem</p>" . $admin;
     }
     public function displayForm() {
         if (isset($_POST['event_id']))
@@ -127,7 +131,7 @@ class Calendar extends DB_Connect {
         $submit = "Create a New Event";
         $event = new Event('form');
         if (!empty($id)) {
-            $event = $this->loadEventById($id);
+            $event = $this->_loadEventById($id);
             if (!is_object($event))
                 return NULL;
             $submit = "Edit This Event";
@@ -165,20 +169,22 @@ FORM_MARKUP;
         $field = array('event_title', 'event_type', 'event_start', 'event_end', 'event_loc', 'event_desc', 'event_rem');
         $fieldList = '';
         $addList = '';
+        $editList = '';
         $eventAdd = array();
         foreach ($field as $f) {
             $eventAdd[$f] = htmlentities($_POST[$f], ENT_QUOTES);
             $fieldList .= "$f,";
             $addList .= "'$eventAdd[$f]',";
+            $editList .= "$f = '$eventAdd[$f]',";
         }
         $addList = substr($addList, 0, -1);
         $fieldList = substr($fieldList, 0, -1);
+        $editList = substr($editList, 0, -1);
         if (empty($_POST['event_id']))
             $sql = "INSERT INTO events ($fieldList) VALUES ($addList)";
         else {
             $id = (int) $_POST['event_id'];
-            $sql = "UPDATE events SET event_title = '$eventAdd[event_title]', event_loc = '$eventAdd[event_loc]' 
-                    WHERE event_id = $id";
+            $sql = "UPDATE events SET $editList WHERE event_id = $id";
         }
         try {
             $result = mysqli_query($this->db, $sql);
@@ -187,6 +193,59 @@ FORM_MARKUP;
         } catch (Exception $e) {
             return $e->getMessage();
         }
+    }
+    private function _adminGeneralOptions() {
+        return '<a href="admin.php" class="admin">+ Add a New Event</a>';
+    }
+    private function _adminEntryOptions($id) {
+        return <<<ADMIN_OPTIONS
+        <div class="admin-options">
+        <form action="admin.php" method="POST">
+        <p>
+        <input type="submit" name="edit_event" value="Edit This Event" />
+        <input type="hidden" name="event_id" value="$id" />
+        <p>
+        </form>
+        <form action="confirmdelete.php" method="POST">
+        <p>
+        <input type="submit" name="delete_event" value="Delete This Event" />
+        <input type="hidden" name="event_id" value="$id" />
+        </p></form></div>
+ADMIN_OPTIONS;
+    }
+    public function confirmDelete($id) {
+        if (empty($id))
+            return NULL;
+        $id = preg_replace('/[^0-9]/', '', $id);
+        if ($_POST['token'] == $_SESSION['token'] && isset($_POST['confirm_delete'])) {
+            if ($_POST['confirm_delete'] == "Yes, Delete It") {
+                $sql = "DELETE FROM events WHERE ID = $id";
+                try {
+                    $result = mysqli_query($this->db, $sql);
+                    mysqli_close($this->db);
+                    header("Location: ./");
+                    return;
+                } catch (Exception $e) {
+                    return $e->getMessage();
+                }
+            } else {
+                header("Location: ./");
+                return;
+            }
+        }
+        $event = $this->_loadEventById($id);
+        if ($is_object($event))
+            header("Location: ./");
+        return <<<CONFIRM_DELETE
+        <form action="confirmdelete.php" method="POST">
+        <h2>Are you sure you want to delete "$event->title"?</h2>
+        <p>You cannot undo once deleted.</p>
+        <p>
+        <input type="submit" name="confirm-delete" value="Yes, Delete It" />
+        <input type="submit" name="confirm_delete" value="No! Keep It!" />
+        <input type="hidden" name="event_id" value="$event->id" />
+        <input type="hidden" name="token" value="$_SESSION[token]" /></p></form>
+CONFIRM_DELETE;
     }
 }
 ?>

@@ -1,4 +1,10 @@
 <?php
+    if (isset($_POST['event_id']))
+        $id = (int) $_POST['event_id'];
+    else {
+        header("Location: ./");
+        exit;
+    }
     require_once 'sys/core/init.inc.php';
 
     $cal = new Calendar($dbo, "2018-01-01 12:00:00");

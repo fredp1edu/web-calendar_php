@@ -1,7 +1,7 @@
 body {
     background-color: rgb(119,136, 153);
     font-family: "Georgia", serif;
-    font-size 1.2rem;
+    font-size 1em;
 }
 #content {
     display: block;
@@ -32,6 +32,7 @@ ul {
     border: 1px solid rgb(0,0,0);
     border-top: 0;
     border-bottom: 2px solid rgb(0,0,0);
+    overflow: hidden;
 }
 li {
     position: relative;
@@ -42,7 +43,7 @@ li {
     border-right: 1px solid rgb(0,0,0);
     width: 110px;
     height: 60px;
-    overflow: hidden;
+    
     background-color: rgb(255,255,255);
 }
 li:hover {
@@ -70,10 +71,10 @@ li strong {
 li a {
     position: relative;
     display: block;
-    border: 1px dotted rgb(0,0,0);
+    border: 1px dashed rgb(0,0,0);
     margin: 2px;
     padding: 2px;
-    font-size: 1rem;
+    font-size: .7rem;
     background-color: rgb(221,235,255);
     text-align: left;
     border-radius: 6px;
@@ -82,7 +83,7 @@ li a {
     color: rgb(0,0,0);
     font-weight: 900;
     font-style: italic;
-}
+} 
 li a:hover {
     background-color: rgb(107,204,221);
     z-index: 2;
