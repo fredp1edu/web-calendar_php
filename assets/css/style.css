@@ -6,7 +6,7 @@ body {
 #content {
     display: block;
     width: 812px;
-    margin: 15% auto 1%;
+    margin: 5% auto 1%;
     padding: 10px;
     background-color: rgb(255,255,255);
     -moz-border-radius: 6px;
@@ -56,9 +56,7 @@ li:hover {
     padding: 2px 2px;
     background-color: rgb(187,204,255);
 }
-.fill {
-    background-color: rgb(107,204,221);
-}
+
 .weekdays li:hover, li.fill:hover {
     background-color: rgb(107,204,221);
     box-shadow: none;
@@ -89,7 +87,12 @@ li a:hover {
     z-index: 2;
     box-shadow: 0 0 6px rgb(119,136,153);
 }
-
+.fill {
+    background-color: rgb(107,204,221);
+}
+.today {
+    background-color: rgb(255,235,0);
+}
 
 
 

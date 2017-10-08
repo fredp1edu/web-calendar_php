@@ -217,9 +217,9 @@ ADMIN_OPTIONS;
         if (empty($id))
             return NULL;
         $id = preg_replace('/[^0-9]/', '', $id);
-        if ($_POST['token'] == $_SESSION['token'] && isset($_POST['confirm_delete'])) {
+        if (isset($_POST['confirm_delete']) && $_POST['token'] == $_SESSION['token']) { // 
             if ($_POST['confirm_delete'] == "Yes, Delete It") {
-                $sql = "DELETE FROM events WHERE ID = $id";
+                $sql = "DELETE FROM events WHERE event_id = $id";
                 try {
                     $result = mysqli_query($this->db, $sql);
                     mysqli_close($this->db);
@@ -234,14 +234,14 @@ ADMIN_OPTIONS;
             }
         }
         $event = $this->_loadEventById($id);
-        if ($is_object($event))
+        if (!is_object($event))
             header("Location: ./");
         return <<<CONFIRM_DELETE
         <form action="confirmdelete.php" method="POST">
         <h2>Are you sure you want to delete "$event->title"?</h2>
         <p>You cannot undo once deleted.</p>
         <p>
-        <input type="submit" name="confirm-delete" value="Yes, Delete It" />
+        <input type="submit" name="confirm_delete" value="Yes, Delete It" />
         <input type="submit" name="confirm_delete" value="No! Keep It!" />
         <input type="hidden" name="event_id" value="$event->id" />
         <input type="hidden" name="token" value="$_SESSION[token]" /></p></form>

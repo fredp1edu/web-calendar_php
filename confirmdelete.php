@@ -5,6 +5,7 @@
         header("Location: ./");
         exit;
     }
+    
     require_once 'sys/core/init.inc.php';
 
     $cal = new Calendar($dbo);
