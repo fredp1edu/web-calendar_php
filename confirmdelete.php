@@ -7,14 +7,16 @@
     }
     require_once 'sys/core/init.inc.php';
 
-    $cal = new Calendar($dbo, "2018-01-01 12:00:00");
-    $page_title = "Events Calendar";
+    $cal = new Calendar($dbo);
+    $markup = $cal->confirmDelete($id);
+
+    $page_title = "View Event";
     $css_files = array('style.css', 'admin.css');
 
     include_once 'assets/common/header.inc.php';
 ?>
 <div id="content">
-    <?php echo $cal->buildCalendar(); ?>
+    <?php echo $markup; ?>
 </div>
 
 <?php include_once 'assets/common/footer.inc.php'; ?>
