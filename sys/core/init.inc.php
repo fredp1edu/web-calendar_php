@@ -1,5 +1,7 @@
 <?php
-session_start();
+$status = session_status();
+if ($status == PHP_SESSION_NONE)
+    session_start();
 if (!isset($_SESSION['token']))
     $_SESSION['token'] = sha1(uniqid(mt_rand(), TRUE));
 

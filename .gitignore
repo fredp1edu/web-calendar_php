@@ -19,3 +19,7 @@ pids
 
 # mac stuff 
 .DS_Store
+
+# test documents for authentication
+testauth*
+dontup

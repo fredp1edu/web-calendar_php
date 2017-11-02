@@ -84,7 +84,12 @@ class Calendar extends DB_Connect {
             if ($this->_startDay < $i && $this->_daysInMonth >= $c) {
                 if (isset($events[$c])) {
                     foreach($events[$c] as $event) {
-                        $link = '<a href="view.php?event_id=' . $event->id . '">' . $event->title . '</a>';
+                        $title = $event->title;
+                        if (strlen($title) > 15) {                  // add 15 to a global class 
+                            $title = substr($title, 0, 13);         // add 13 to a global class - how to compensate for length of line
+                            $title .= "...";
+                        }
+                        $link = '<a href="view.php?event_id=' . $event->id . '">' . $title . '</a>';
                         $eventInfo .= "\n\t\t$link";
                     }
                 }
@@ -95,7 +100,7 @@ class Calendar extends DB_Connect {
             $html .= $lStart . $date . $eventInfo . $lEnd . $wrap;
         }
         while ($i % 7 != 1) {                                       //check out variable scope to see how $i still exists
-            $html .= "\n\t\t<li class=\"fill\">&nbsp;<li>";
+            $html .= "\n\t\t<li class=\"fill\">&nbsp;<li>";         // whatever it's doing it's not working exactly right 
             ++$i;
         }
         $html .= "\n\t</ul>\n\n";
@@ -195,10 +200,26 @@ FORM_MARKUP;
         }
     }
     private function _adminGeneralOptions() {
-        return '<a href="admin.php" class="admin">+ Add a New Event</a>';
+        if (isset($_SESSION['user'])) {
+            return <<<ADMIN_OPTIONS
+        <a href="admin.php" class="admin">+ Add a New Event</a>
+        <form action="assets/inc/process.inc.php" method="POST">
+            <div>
+                <input type="submit" value="Log Out" class="logout" />
+                <input type="hidden" name="token" value="$_SESSION[token]" />
+                <input type="hidden" name="action" value="user_logout" />
+            </div>
+        </form>
+ADMIN_OPTIONS;
+        } else {
+            return <<<ADMIN_OPTIONS
+        <a href="login.php" class="admin">Log In</a>
+ADMIN_OPTIONS;
+        }
     }
     private function _adminEntryOptions($id) {
-        return <<<ADMIN_OPTIONS
+        if (isset($_SESSION['user'])) {
+            return <<<ADMIN_OPTIONS
         <div class="admin-options">
         <form action="admin.php" method="POST">
         <p>
@@ -212,12 +233,15 @@ FORM_MARKUP;
         <input type="hidden" name="event_id" value="$id" />
         </p></form></div>
 ADMIN_OPTIONS;
+        } else {
+            return NULL;
+        }
     }
     public function confirmDelete($id) {
         if (empty($id))
             return NULL;
         $id = preg_replace('/[^0-9]/', '', $id);
-        if (isset($_POST['confirm_delete']) && $_POST['token'] == $_SESSION['token']) { // 
+        if (isset($_POST['confirm_delete']) && $_POST['token'] == $_SESSION['token']) {
             if ($_POST['confirm_delete'] == "Yes, Delete It") {
                 $sql = "DELETE FROM events WHERE event_id = $id";
                 try {

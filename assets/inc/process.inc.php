@@ -1,10 +1,25 @@
 <?php
-session_start();
+declare(strict_types=1);
+$status = session_status();
+if ($status == PHP_SESSION_NONE)
+    session_start();
+
 $actions = array(
     'event_edit' => array(
         'object' => 'Calendar',
         'method' => 'processForm',
-        'header' => 'Location: ../../' )
+        'header' => 'Location: ../../'
+    ),
+    'user_login' => array(
+        'object' => 'Admin',
+        'method' => 'processLoginForm',
+        'header' => 'Location: ../../'
+    ),
+    'user_logout' => array(
+        'object' => 'Admin',
+        'method' => 'processLogout',
+        'header' => 'Location: ../../'
+    )
 );
 if ($_POST['token'] == $_SESSION['token'] && isset($actions[$_POST['action']])) {
     $doAction = $actions[$_POST['action']];
@@ -31,31 +46,5 @@ function __autoload($class) {
     if (file_exists($filename)) {
         include_once $filename;
     }
-}
-/*
- 
-
-
-
-    
-   
-
-
-
-
-
-if ($_POST['token'] == $_SESSION['token'] && isset($actions[$_POST['action']])) {
-    $doAction = $actions[$_POST['action']];
-    $calObj = new $doAction['object']($dbo);
-    if (TRUE === $msg = $calObj->$doAction['method']()) {
-        header($doAction['header']);
-        exit;
-    } else
-        die ($msg);
-} else {
-    header("Location: ./");
-    exit;
-}
- */
-    
+}    
 ?>

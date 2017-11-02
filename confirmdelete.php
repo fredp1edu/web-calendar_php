@@ -1,5 +1,10 @@
 <?php
-    if (isset($_POST['event_id']))
+    declare(strict_types=1);
+    $status = session_status();
+    if ($status == PHP_SESSION_NONE) 
+        session_start();
+
+    if (isset($_POST['event_id']) && isset($_SESSION['user']))
         $id = (int) $_POST['event_id'];
     else {
         header("Location: ./");

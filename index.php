@@ -3,7 +3,7 @@
 
     $cal = new Calendar($dbo);
     $page_title = "Events Calendar";
-    $css_files = array('style.css', 'admin.css');
+    $css_files = array('style.css', 'admin.css', 'ajax.css');
 
     include_once 'assets/common/header.inc.php';
 ?>
@@ -11,4 +11,7 @@
     <?php echo $cal->buildCalendar(); ?>
 </div>
 
-<?php include_once 'assets/common/footer.inc.php'; ?>
+<?php
+echo (isset($_SESSION['user'])) ? "Logged In!" : "Logged Out!";
+include_once 'assets/common/footer.inc.php'; 
+?>
