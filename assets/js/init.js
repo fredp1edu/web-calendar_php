@@ -47,7 +47,7 @@ $('document').ready(function() {
     		.html("&times;")
     		.click(function(event) {
     			fx.boxOut(event);
-    			})
+    		})
     		.appendTo(modal);
 
     	$.ajax({
@@ -62,7 +62,7 @@ $('document').ready(function() {
     		}
     	});
     });
-    $('body').on('click', '.admin', function(event) {
+    /*$('body').on('click', '.admin', function(event) {
     	event.preventDefault();
     	var action = 'edit_event';
     	$.ajax({
@@ -74,6 +74,25 @@ $('document').ready(function() {
     			var modal = fx.initModal();
     			fx.boxIn(null, modal);
     			form.appendTo(modal).addClass("edit-form").fadeIn('slow');
+    		},
+    		error: function(msg) {
+    			alert(msg);
+    		}
+    	});
+    }); */
+    $('body').on('click', '.edit-form a:contains(cancel)', function(event) {
+    	fx.boxOut(event);
+    });
+    $('body').on('click', '.edit-form input[type=submit]', function(event) {
+    	event.preventDefault();
+    	var formData = $(this).parents('form').serialize();
+    	$.ajax({
+    		type: 'POST',
+    		url: processFile,
+    		data: formData,
+    		success: function(data) {
+    			fx.boxOut();
+    			console.log("Event saved");
     		},
     		error: function(msg) {
     			alert(msg);

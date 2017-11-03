@@ -5,9 +5,11 @@ I will reproduce the calendar project as it is in the book, with some tweaking (
 Notes:
 *   I like the structure of the the calendar and admin classes and how they tie into each other
 *   There's some presentation issue with the formatting of day boxes that are not calendar dates. While view source code shows the right coding, the DOM is actually doing something different. Check CSS and how calendar is built.
-*   Looking ahead at the project, I see the month remains static through the project and there is NO coverage of how to navigate to different months and years, guess they said that's up to you to figure out. So I did. Working well so far, can navigate months and years.
+*   NO MONTH/YEAR NAVIGATION: The directions for this Calendar app keeps the month static throughout the project and there is NO coverage on how to navigate to different months or years. Guess they said that's up to you to figure out. So I did. The month and year navigation buttons well so far, can navigate months and years.
 *   Added some automation to some of the SQL statements as well as collecting the add-event form data (used associative arrays)
 *   Added a few lines so that if the event title exceeds one line in the calendar, it will be truncated and "..." added after. Using the string length method works but isn't the best since it doesn't compensate for proportionally spaced fonts. I can either make the event title a monospaced font (which I'll do for now), or (better) see if CSS can handle this issue better than PHP.
-*   Need to limit the amount of events displayed per day, need a day view of all events for the day.
+*   Need to limit the amount of events displayed per day, have a ---more--- link that links to a full day view
+*   Need a full day view of all events for the day.
 *   Added authentication, adding now some jquery enhancements.
 *   This calendar configuration currently does NOT use JSON, so one or more functons would have to be reconfigured slightly to accomplish that.
+*   SPECIAL NOTE: THIS APP CURRENTLY HAS NO VALIDATION OF INPUTS -- So inputting invalid date information will simply crash the program right now. I will be adding validation, but before doing that, I actually want to revamp the add/edit input forms to limit the types of input: i.e., add selection boxes for date, time and type inputs. 
