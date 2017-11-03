@@ -13,9 +13,10 @@ class Calendar extends DB_Connect {
         
         if (isset($useDate))                // get the time
             $this->_useDate = $useDate;
-        else
+        else {
+            date_default_timezone_set('America/New_York');
             $this->_useDate = date('Y-m-d H:i:s');
-        
+        }
         $time = strtotime($this->_useDate);     //break down the time
         $this->_month = date('m', $time);
         $this->_year = date('Y', $time);
@@ -66,7 +67,10 @@ class Calendar extends DB_Connect {
     public function buildCalendar() {
         $calendarMonth = date('F Y', strtotime($this->_useDate));
         $weekdays = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
-        $html = "\n\t<h2>$calendarMonth</h2>";
+        $html = '<section class="calHead">
+        <a href="./?change=-1year">-&#60;&#60;&#60; year</a><a href="./?change=-1month">-&#60;&#60; month</a>
+        <a href="./?change=today" class="calMonthYr" title="Click here for current date">' . $calendarMonth . '</a>
+        <a href="./?change=%2b1month">month &#62;&#62;+</a><a href="./?change=%2b1year">year &#62;&#62;&#62;+</a></section>';
         for ($d=0, $labels=NULL; $d < 7; ++$d) {
             $labels .= "\n\t\t<li>" . $weekdays[$d] . "</li>";
         }

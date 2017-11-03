@@ -19,6 +19,7 @@ h2, p {
     margin: 0 auto 14px;
     text-align: center;
 }
+
 ul {
     display: block;
     clear: left;
@@ -42,8 +43,7 @@ li {
     border-left: 1px solid rgb(0,0,0);
     border-right: 1px solid rgb(0,0,0);
     width: 110px;
-    height: 60px;
-    
+    height: 60px; 
     background-color: rgb(255,255,255);
 }
 li:hover {
@@ -51,12 +51,20 @@ li:hover {
     z-index: 1;
     box-shadow: 0 0 0 10px rgb(119,136,153);
 }
+.calHead a {
+    margin: 0 0 5% 7%;
+    text-decoration: none;
+    font-style: italic;
+}
+.calMonthYr {
+    font-size: 1.3rem;
+    font-weight: 900;
+}
 .weekdays li {
-    height: 16px;
+    height: 34px;
     padding: 2px 2px;
     background-color: rgb(187,204,255);
 }
-
 .weekdays li:hover, li.fill:hover {
     background-color: rgb(107,204,221);
     box-shadow: none;
