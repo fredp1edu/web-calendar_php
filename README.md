@@ -19,7 +19,8 @@ NEXT TO DO:
 1.  Complete day and month view - possible batch deletion of entries through month and day views.
 2.  Need to limit the amount of events displayed per day, have a ---more--- link that links to a full day view
 3.  Add jquery enhancements, add front and back end form validation (basically go back to where left off from book and finish it)
-4.  Make multiple reminder alerts possible by creation a separate reminder table. Set up reminder class to check for reminder alerts and display on initial calendar display. 
+4.  Allow for creation of multiple reminders for one event by creation a separate reminder table. Set up a reminder class to check for reminders and display as an alert upon initial calendar display. 
 5.  Remove holiday events from event listings, add a symbol to calendar to denote holiday, change color of day, add link and title describing holiday.
 6.  Look into online API that lists holidays and make separate table for that to auto-populate calendar.
 7.  Allow events to span days. 
+8.  Turn calendar app into enterprise app that allows multiple users to create proprietary calendar.
