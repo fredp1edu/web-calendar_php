@@ -11,8 +11,10 @@ I will reproduce the calendar project as it is in the book, but will make a few 
 Notes:
 *   There's some presentation issue with the formatting of day boxes that are not calendar dates. While view source code shows the right coding, the DOM is actually doing something different. Have to check CSS and how calendar is built.
 *   SPECIAL NOTE: THIS APP CURRENTLY HAS NO VALIDATION OF INPUTS -- So it is still possible to input an invalid date or an end time  that is earlier than the start time. An invalid date may freeze stuff up right now. I will be adding front-end and back-end validation shortly.
+
 *   Once it goes online: to log in:  caltester fpProj2017! 
     *   If things don't work at all, I'm having a small issue with the mysql db with my ISP - to be resolved shortly.
+
 NEXT TO DO:
 1.  Complete day and month view - possible batch deletion of entries through month and day views.
 2.  Need to limit the amount of events displayed per day, have a ---more--- link that links to a full day view
