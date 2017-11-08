@@ -14,6 +14,6 @@ Notes:
 *   SPECIAL NOTE: THIS APP CURRENTLY HAS NO VALIDATION OF INPUTS -- So inputting invalid date information will simply crash the program right now. I will be adding validation, but before doing that, I actually want to revamp the add/edit input forms to limit the types of input: i.e., add selection boxes for date, time and type inputs. 
     *   Created a new class with constant parameters (input fields, select boxes data, etc.). Now able to set a reminder and event type. 
 *   Will continue with jquery after more is done with input/edit screens. 
-*   Want to eventually make multiple reminder alerts (create a separate reminder table)
-*   Want to remove holiday events from event list, add a symbol to calendar, change color of day, add link and title describing holiday.
+*   Want to eventually make multiple reminder alerts (create a separate reminder table) - have reminder alert screen pop up on initial calendar display. 
+*   Want to remove holiday events from event listings, add a symbol to calendar to denote holiday, change color of day, add link and title describing holiday.
 *   Work on events that span days. 
