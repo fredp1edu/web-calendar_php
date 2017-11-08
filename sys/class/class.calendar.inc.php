@@ -144,27 +144,51 @@ class Calendar extends DB_Connect {
         $submit = "Create a New Event";
         $event = new Event('form');
         $event->start = $this->_useDate;
+        $event->end = date('Y-m-d H:i:s', strtotime($event->start . '+ 1 hour'));
         if (!empty($id)) {
             $event = $this->_loadEventById($id);
             if (!is_object($event))
                 return NULL;
             $submit = "Edit This Event";
         }
+        $timeS = strtotime($event->start);
+        $timeE = strtotime($event->end);
+        $optBoxYearS = $this->params->getOptionSet("year", date('Y', $timeS));
+        $optBoxMonthS = $this->params->getOptionSet("month", date('m', $timeS));
+        $optBoxDateS = $this->params->getOptionSet("date", date('d', $timeS));
+        $optBoxHourS = $this->params->getOptionSet("hour", date('H', $timeS));
+        $optBoxMinS = $this->params->getOptionSet("min", date('i', $timeS));
+        $optBoxYearE = $this->params->getOptionSet("year", date('Y', $timeE));
+        $optBoxMonthE = $this->params->getOptionSet("month", date('m', $timeE));
+        $optBoxDateE = $this->params->getOptionSet("date", date('d', $timeE));
+        $optBoxHourE = $this->params->getOptionSet("hour", date('H', $timeE));
+        $optBoxMinE = $this->params->getOptionSet("min", date('i', $timeE));
         $selectBoxType = $this->params->getSelectBox("type", $event->type);
         $selectBoxRem = $this->params->getSelectBox("rem", $event->rem);
+        
         return include 'assets/inc/editform.inc.php';
     }
     public function processForm() {
         if ( $_POST['action'] != 'event_edit')
             return "Don't know how you got here, but you can't stay";
         
-        $field = $this->params->getEventFields();
+        $formFieldEvent = $this->params->getFormFieldsEvent();
+        $formInputEvent = array();
+        foreach($formFieldEvent as $e) {
+            $formInputEvent[$e] = htmlentities($_POST[$e], ENT_QUOTES);
+        }
+        $formInputEvent['event_start'] = "$formInputEvent[event_sYear]-$formInputEvent[event_sMonth]-$formInputEvent[event_sDate] " .
+                                        "$formInputEvent[event_sHour]:$formInputEvent[event_sMin]:00";
+        $formInputEvent['event_end'] = "$formInputEvent[event_eYear]-$formInputEvent[event_eMonth]-$formInputEvent[event_eDate] " .
+                                        "$formInputEvent[event_eHour]:$formInputEvent[event_eMin]:00";
+        
+        $eventFields = $this->params->getEventFields();
         $fieldList = '';
         $addList = '';
         $editList = '';
         $eventAdd = array();
-        foreach ($field as $f) {
-            $eventAdd[$f] = htmlentities($_POST[$f], ENT_QUOTES);
+        foreach ($eventFields as $f) {
+            $eventAdd[$f] = $formInputEvent[$f];
             $fieldList .= "$f,";
             $addList .= "'$eventAdd[$f]',";
             $editList .= "$f = '$eventAdd[$f]',";

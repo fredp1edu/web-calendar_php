@@ -54,5 +54,4 @@ if (TRUE === $msg = $calObj->$act()) {      // $doAction['method'](); doesn't wo
     }
 }
 */
-
 ?>

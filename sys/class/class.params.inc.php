@@ -1,8 +1,6 @@
 <?php
 
 class Params {
-
-    private $eventField = array('event_title', 'event_type', 'event_start', 'event_end', 'event_loc', 'event_desc', 'event_rem');
                                     // eventually eventType and remText will load from DB key tables
     private $eventType = array(
         "name"  => "event_type",
@@ -14,6 +12,29 @@ class Params {
     );    
     private $HOLIDAY_NUM = 9;
     
+    private $formFieldEvent = array("event_title", "event_type", "event_loc", "event_desc", "event_rem",
+                                    "event_sMonth", "event_sYear", "event_sDate", "event_sHour", "event_sMin",
+                                    "event_eMonth", "event_eYear", "event_eDate", "event_eHour", "event_eMin");
+    private $eventField = array('event_title', 'event_type', 'event_start', 'event_end', 'event_loc', 'event_desc', 'event_rem');
+    
+    private $month = array();
+    private $year = array();
+    private $date = array();
+    private $hour = array();
+    private $min = array();
+    
+    public function __construct() {
+        for ($m = 1; $m < 13; $m++)
+            $this->month[date('m', strtotime('01.'.$m.'.2001'))] = date('F', strtotime('01.'.$m.'.2001'));
+        for ($y = 2015; $y < 2036; $y++)
+            $this->year[$y] = $y;
+        for ($d = 1; $d < 32; $d++)
+            $this->date[sprintf('%02d', $d)] = $d;
+        for ($h = 0; $h < 24; $h++)
+            $this->hour[sprintf('%02d', $h)] = sprintf('%02d', $h);
+        for ($n = 0; $n < 60; $n++)
+            $this->min[sprintf('%02d', $n)] = sprintf('%02d', $n);
+    }
     public function getEventFields() {
         return $this->eventField;
     }
@@ -22,6 +43,9 @@ class Params {
     }
     public function getRemText($num) {
         return $this->remText["txt"][$num];
+    }
+    public function getFormFieldsEvent() {
+        return $this->formFieldEvent;
     }
     public function getSelectBox($type, $select) {
         $select = (int) $select;
@@ -40,6 +64,15 @@ class Params {
             $box .= "\t<option value=\"$i\" " .$selTxt. ">" .$arr["txt"][$i]. "</option>\n";
         }
         $box .= "</select>\n";
+        return $box;
+    }
+    public function getOptionSet($type, $select) {
+        $array = $this->$type;
+        $box = NULL;
+        foreach ($array as $index => $val) {
+            $selTxt = ($index == $select) ? "selected" : NULL;
+            $box .= "\t<option value=\"$index\" " .$selTxt. ">" .$val. "</option>\n";
+        }
         return $box;
     }
 }
