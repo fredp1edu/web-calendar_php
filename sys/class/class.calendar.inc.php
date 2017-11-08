@@ -7,6 +7,7 @@ class Calendar extends DB_Connect {
     private $_year;
     private $_daysInMonth;
     private $_startDay;
+    private $params;
     
     public function __construct($dbo=NULL, $useDate=NULL) {
         parent::__construct($dbo);
@@ -23,6 +24,7 @@ class Calendar extends DB_Connect {
         $this->_daysInMonth = cal_days_in_month(CAL_GREGORIAN, $this->_month, $this->_year);
         $time = mktime(0, 0, 0, $this->_month, 1, $this->_year);
         $this->_startDay = date('w', $time);
+        $this->params = new Params();
     }
     private function _loadEventData($id=NULL) {
         $query = "SELECT * FROM events";
@@ -119,17 +121,19 @@ class Calendar extends DB_Connect {
         $id = preg_replace('/[^0-9]/', '', $id);
         $event = $this->_loadEventById($id);
         $tStart = strtotime($event->start);
-        $date = date('F d, Y', $tStart);
+        $date = date('D, F j, Y', $tStart);
         $start = date('g:ia', $tStart);
         $end = date('g:ia', strtotime($event->end));
-        $rem = ($event->rem == NULL || $event->rem == '0000-00-00 00:00:00') ? 
-            "no reminder set" : date('g:ia', strtotime($event_rem));
+        $rem = ($event->rem == 0) ? "no reminder set" : $this->params->getRemText($event->rem) . " before the appt";
         $admin = $this->_adminEntryOptions($id);
+        $type = $this->params->getEventType($event->type);
         
         return "<h2>$event->title</h2>" .
-                "\n\t<p class=\"para date\">$date &mdash; $start&mdash;$end</p>" .
-                "\n\t<p class=\"para loc\">$event->loc</p>" .
-                "\n\t<p class=\"para desc\">$event->desc</p>" .
+                "\n\t<p class=\"para date\">Date: $date</p>" . 
+                "\n\t<p class=\"para date\">Time: $start &mdash; $end</p>" .
+                "\n\t<p class=\"para loc\">Loc: $event->loc</p>" .
+                "\n\t<p class=\"para desc\">Desc: $event->desc</p>" .
+                "\n\t<p class=\"para date\">$type </p> " .
                 "\n\t<p class=\"para date\">Reminder: $rem</p>" . $admin;
     }
     public function displayForm() {
@@ -139,43 +143,22 @@ class Calendar extends DB_Connect {
             $id = NULL;
         $submit = "Create a New Event";
         $event = new Event('form');
+        $event->start = $this->_useDate;
         if (!empty($id)) {
             $event = $this->_loadEventById($id);
             if (!is_object($event))
                 return NULL;
             $submit = "Edit This Event";
-        } 
-return <<<FORM_MARKUP
-<form action="assets/inc/process.inc.php" method="POST">
-<fieldset>
-<legend>$submit</legend>
-<label for "event_title">Event Title:</label>
-    <input type="text" name="event_title" id="event_title" value="$event->title" />
-<label for "event_type">Type:</label>
-    <input type="text" name="event_type" id="event_type" value="$event->type" />
-<label for "event_start">Start Time:</label>
-    <input type="text" name="event_start" id="event_start" value="$event->start" />
-<label for "event_end">End Time:</label>
-    <input type="text" name="event_end" id="event_end" value="$event->end" />
- <label for "event_loc">Location:</label>
-    <input type="text" name="event_loc" id="event_loc" value="$event->loc" />
-<label for "event_desc">Description:</label>
-    <textarea name="event_desc" id="event_desc"/>$event->desc</textarea>
-<label for "event_rem">Reminder:</label>
-    <input type="text" name="event_rem" id="event_rem" value="$event->rem" />
-<input type="hidden" name="event_id" value="$event->id" />
-<input type="hidden" name="token" value="$_SESSION[token]" />
-<input type="hidden" name="action" value="event_edit" />
-<button type="submit" id="btnEdit">$submit</button> or <a href="./">cancel</a>
-</fieldset>
-</form>
-FORM_MARKUP;
+        }
+        $selectBoxType = $this->params->getSelectBox("type", $event->type);
+        $selectBoxRem = $this->params->getSelectBox("rem", $event->rem);
+        return include 'assets/inc/editform.inc.php';
     }
     public function processForm() {
         if ( $_POST['action'] != 'event_edit')
             return "Don't know how you got here, but you can't stay";
         
-        $field = array('event_title', 'event_type', 'event_start', 'event_end', 'event_loc', 'event_desc', 'event_rem');
+        $field = $this->params->getEventFields();
         $fieldList = '';
         $addList = '';
         $editList = '';

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+/* declare(strict_types=1); */
 
 class Admin extends DB_Connect {
     private $_saltLength = 7;

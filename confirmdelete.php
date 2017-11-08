@@ -1,8 +1,5 @@
 <?php
-    declare(strict_types=1);
-    $status = session_status();
-    if ($status == PHP_SESSION_NONE) 
-        session_start();
+    session_start();
 
     if (isset($_POST['event_id']) && isset($_SESSION['user']))
         $id = (int) $_POST['event_id'];
@@ -20,6 +17,11 @@
     $css_files = array('style.css', 'admin.css');
 
     include_once 'assets/common/header.inc.php';
+
+/* declare(strict_types=1);
+$status = session_status();
+    if ($status == PHP_SESSION_NONE) 
+*/
 ?>
 <div id="content">
     <?php echo $markup; ?>

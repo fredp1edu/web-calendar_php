@@ -1,11 +1,10 @@
 <?php
-declare(strict_types=1);
-
-$status = session_status();
-if ($status == PHP_SESSION_NONE)
-    session_start();
-
+session_start();
 require_once '../../sys/config/db_cred.inc.php';
+require_once '../../sys/class/class.db_connect.inc.php';
+require_once '../../sys/class/class.params.inc.php';
+require_once '../../sys/class/class.calendar.inc.php';
+require_once '../../sys/class/class.event.inc.php';
 
 foreach ($C as $name => $val) {
     define($name, $val);
@@ -36,10 +35,14 @@ if (isset($actions[$_POST['action']])) {
 $act = $doAction['method'];
 echo $calObj->$act($id);      // directly referencing $doAction['method'] never works here.
 
-function __autoload($class) {
+/* declare(strict_types=1);  not supported in production env 
+$status = session_status();
+if ($status == PHP_SESSION_NONE)
+    session_start();
+function __autoload($class) {                autoload didn't work in live environment - need to look into that.
     $filename = "../../sys/class/class." . $class . ".inc.php";
     if (file_exists($filename)) {
         include_once $filename;
-    }
-}  
+    }    
+*/
 ?>

@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 class Event {
 
@@ -27,16 +27,14 @@ class Event {
                 $this->id = '';
                 $this->title = '';
                 $this->loc = '';
-                $this->type = '';
+                $this->type = 0;
                 $this->desc = '';
                 $this->start = '';
                 $this->end = '';
-                $this->rem = '';
+                $this->rem = 0;
             } else 
                 throw new Exception("No event data was supplied.");
         }
     }
 }
 ?>
-
-
