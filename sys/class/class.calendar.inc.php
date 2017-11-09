@@ -98,18 +98,22 @@ class Calendar extends DB_Connect {
             $eventInfo = NULL;
             if ($this->_startDay < $i && $this->_daysInMonth >= $c) {
                 if (isset($events[$c])) {
+                    $ecl = $this->params->getEventCharLimit();
                     foreach($events[$c] as $event) {
                         $title = $event->title;
                         $type = $this->params->getEventStyle($event->type);
-                        if (strlen($title) > 17) {                  // add 15 to a global class 
-                            $title = substr($title, 0, 17);         // add 13 to a global class - how to compensate for length of line
+                        if (strlen($title) > $ecl) {                  // add 15 to a global class 
+                            $title = substr($title, 0, $ecl);         // add 13 to a global class - how to compensate for length of line
                             $title .= "...";
                         }
                         $link = '<a class="event ' .$type. '" href="view.php?event_id=' . $event->id . '">' . $title . '</a>';
                         $eventInfo .= "\n\t\t$link";
                     }
                 }
-                $date = sprintf("\n\t\t\t<strong>%02d</strong>", $c++);
+                $mo = date('F', strtotime($this->_useDate));
+                $click = "title=\"Click here for $mo $c events\"";
+                $date = sprintf("\n\t\t\t<strong><a href=\"view.php?day=%d\" %s class=\"dateNum\">%02d</a></strong>", 
+                                $c, $click, $c++);
             } else 
                 $date = "&nbsp;";
             $wrap = ($i != 0 && $i % 7 == 0) ? "\n\t</ul>\n\t<ul>" : NULL;
@@ -146,7 +150,18 @@ class Calendar extends DB_Connect {
                 "\n\t<p class=\"para date\">$type </p> " .
                 "\n\t<p class=\"para date\">Reminder: $rem</p>" . $admin;
     }
-    
+    public function displayDayEvents($d) {
+        if (empty($d))
+            return NULL;
+        $d = "*" . $d;
+        $events = array();
+        $events = _loadEventData($d);
+        $rows = mysqli_num_rows($events);
+        if ($rows == 0) {
+            $admin = _adminGeneralOptions();
+            return "There are no entries for this date" . $admin;
+        }
+    }
     public function displayForm() {
         if (isset($_POST['event_id']))
             $id = (int) $_POST['event_id'];
@@ -156,8 +171,14 @@ class Calendar extends DB_Connect {
         $event = new Event('form');
         $event->start = $this->_useDate;
         $event->end = date('Y-m-d H:i:s', strtotime($event->start . '+ 1 hour'));
+        $fieldDisable = NULL;
+        $holidayType = NULL;
         if (!empty($id)) {
             $event = $this->_loadEventById($id);
+            if ($event->type == 9) {
+                $fieldDisable = "readonly";
+                $holidayType = "<input type=\"hidden\" name=\"event_type\" value=9 />";
+            }        
             if (!is_object($event))
                 return NULL;
             $submit = "Edit This Event";

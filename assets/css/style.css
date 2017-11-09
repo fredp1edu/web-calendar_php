@@ -49,7 +49,7 @@ li {
 li:hover {
     background-color: rgb(255,204,107);
     z-index: 1;
-    box-shadow: 0 0 0 10px rgb(119,136,153);
+    box-shadow: 0 0 0 3px rgb(119,136,153);
 }
 .calHead a {
     margin: 0 0 5% 7%;
@@ -73,6 +73,10 @@ li strong {
     position: absolute;
     top: 2px;
     right: 2px;
+}
+.dateNum {
+    text-decoration: none;
+    color: rgb(0,0,0);
 }
 .event {
     position: relative;

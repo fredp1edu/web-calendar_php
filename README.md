@@ -2,9 +2,10 @@
 A web calendar app done with PHP/MySQL/JQuery to be redone later with Node / React
 This calendar app was adapted from a book, "Pro PHP and JQuery", I was reading to catch up on PHP skills. While it is a bit cumbersome writing, PHP is used by a vast majority of web hosts in the US, including the ISPs of two organizations with whom I'm working on some web development projects. Thus, I need to get my PHP refresher on.
 I will reproduce the calendar project as it is in the book, but will make a few changes:
-*   Just about all the work, including producing the HTML for various forms and the calendar structure itself is done through one main calendar class, so definitely not following a MVC framework. I will distribute some of that work to one or more helper classes and the php output files themselves.
+*   Just about all the work, including producing the HTML for various forms and the calendar structure itself is done through one main calendar class, so it's definitely not following a MVC framework. I will distribute some of that work to one or more helper classes and the php output files themselves.
 *   Some of the jquery work is unnecessary in my eyes, namely not having php refresh the screen after an event add or edit. I don't really see a problem with a refresh after one of those actions. I'll go along with the instrucs now just to see the methodology but may take it out later.
-*   Added month, year and current date navigation of calendar, the book example only used one static month.
+*   Added 2 features: event type, and event reminder alerts (to be developed later). 
+*   sAdded month, year and current date navigation of calendar, the book example only used one static month.
 *   Automated form input collection and db processing through creation and use of a constants parameters class.
 *   Added a few lines so that if the event title exceeds one line in the calendar, it will be truncated and "..." added after. Using the PHP string length method works for now but isn't the best since it doesn't compensate for proportionally spaced fonts. I can either make the event title a monospaced font (which I don't want to do), or (better) see if HTML/CSS can handle this issue better than PHP.
 *   Added select boxes for event type, reminder, event start and end times. All boxes update during editing process. 
@@ -13,6 +14,8 @@ Notes:
 *   SPECIAL NOTE: THIS APP CURRENTLY HAS NO VALIDATION OF INPUTS -- So it is still possible to input an invalid date or an end time  that is earlier than the start time. An invalid date may freeze stuff up right now. I will be adding front-end and back-end validation shortly.
 
 *   Online now. to log in:  caltester fpProj2017! 
+
+    * Just one favor:  please do not edit or delete the holiday entries (thanksgiving, vet's day, christmas, etc) for now. Holidays are special cases which won't be editable or deleteable after the next push.
 
 NEXT TO DO:
 1.  Complete day and month view - possible batch deletion of entries through month and day views.

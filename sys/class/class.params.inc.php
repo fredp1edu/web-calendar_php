@@ -13,11 +13,12 @@ class Params {
         "txt"   => array("No reminder", "10 min", "15 min", "30 min", "1 hour", "3 hours", "12 hours", "1 day")
     );    
     private $HOLIDAY_NUM = 9;
+    private $EVENT_CHAR_LIMIT = 17;
     
     private $formFieldEvent = array("event_title", "event_type", "event_loc", "event_desc", "event_rem",
                                     "event_sMonth", "event_sYear", "event_sDate", "event_sHour", "event_sMin",
                                     "event_eMonth", "event_eYear", "event_eDate", "event_eHour", "event_eMin");
-    private $eventField = array('event_title', 'event_type', 'event_start', 'event_end', 'event_loc', 'event_desc', 'event_rem');
+    private $eventField = array("event_title", "event_type", "event_start", "event_end", "event_loc", "event_desc", "event_rem");
     
     private $month = array();
     private $year = array();
@@ -52,6 +53,9 @@ class Params {
     }
     public function getFormFieldsEvent() {
         return $this->formFieldEvent;
+    }
+    public function getEventCharLimit() {
+        return $this->EVENT_CHAR_LIMIT;
     }
     public function getSelectBox($type, $select) {
         $select = (int) $select;
