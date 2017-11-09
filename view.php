@@ -1,6 +1,7 @@
 <?php
     if (isset($_GET['event_id'])) {
         $id = preg_replace('/[^0-9]/', '', $_GET['event_id']);
+        $doAction = "displayEvent";
         if (empty($id)) {
             header("Location: ./");
             exit;
@@ -18,7 +19,7 @@
     $cal = new Calendar($dbo);
 ?>
 <div id="content">
-    <?php echo $cal->displayEvent($id); ?>
+    <?php echo $cal->$doAction($id); ?>
     <a href="./">&laquo; Back to the calendar</a>
 </div>
 

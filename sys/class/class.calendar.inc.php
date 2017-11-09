@@ -26,13 +26,22 @@ class Calendar extends DB_Connect {
         $this->_startDay = date('w', $time);
         $this->params = new Params();
     }
-    private function _loadEventData($id=NULL) {
+    private function _loadEventData($item=NULL) {
         $query = "SELECT * FROM events";
-        if (!empty($id))
-            $query .= " WHERE event_id = $id LIMIT 1";
+        if (!empty($item) && substr($item, 0, 1) != "*")
+            $query .= " WHERE event_id = $item LIMIT 1";
         else {
-            $startTime = mktime(0, 0, 0, $this->_month, 1, $this->_year);
-            $endTime = mktime(23, 59, 59, $this->_month+1, 0, $this->_year);
+            if (!empty($item)) {
+                $sDay = (int) substr($item, 1);
+                $eDay = $sDay;
+                $eMonth = $this->_month;
+            } else {
+                $sDay = 1;
+                $eDay = 0;
+                $eMonth = $this->_month + 1;
+            }
+            $startTime = mktime(0, 0, 0, $this->_month, $sDay, $this->_year);
+            $endTime = mktime(23, 59, 59, $eMonth, $eDay, $this->_year);
             $startDate = date('Y-m-d H:i:s', $startTime);
             $endDate = date('Y-m-d H:i:s', $endTime);
             $query .= " WHERE event_start BETWEEN '$startDate' AND '$endDate' ORDER BY event_start";
@@ -92,8 +101,8 @@ class Calendar extends DB_Connect {
                     foreach($events[$c] as $event) {
                         $title = $event->title;
                         $type = $this->params->getEventStyle($event->type);
-                        if (strlen($title) > 15) {                  // add 15 to a global class 
-                            $title = substr($title, 0, 13);         // add 13 to a global class - how to compensate for length of line
+                        if (strlen($title) > 17) {                  // add 15 to a global class 
+                            $title = substr($title, 0, 17);         // add 13 to a global class - how to compensate for length of line
                             $title .= "...";
                         }
                         $link = '<a class="event ' .$type. '" href="view.php?event_id=' . $event->id . '">' . $title . '</a>';
@@ -137,6 +146,7 @@ class Calendar extends DB_Connect {
                 "\n\t<p class=\"para date\">$type </p> " .
                 "\n\t<p class=\"para date\">Reminder: $rem</p>" . $admin;
     }
+    
     public function displayForm() {
         if (isset($_POST['event_id']))
             $id = (int) $_POST['event_id'];

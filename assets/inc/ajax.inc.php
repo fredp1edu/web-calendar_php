@@ -24,17 +24,20 @@ $actions = array(
     )
 );
 if (isset($actions[$_POST['action']])) {
-    $doAction = $actions[$_POST['action']];
-    $dbo = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-    $calObj = new $doAction['object']($dbo);
-    if (isset($_POST['event_id']))
-        $id = (int)$_POST['event_id'];
-    else
-        $id = NULL;
+    if (!isset($_SESSION['started'])) {         //hopefully this will prevent repeated clicks from running the process repeatedly
+        $_SESSION['started'] = 1;
+        $doAction = $actions[$_POST['action']];
+        $dbo = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        $calObj = new $doAction['object']($dbo);
+        if (isset($_POST['event_id']))
+            $item = (int)$_POST['event_id'];
+        else
+            $item = NULL;
+        $act = $doAction['method'];  // directly referencing $doAction['method'] never works here.
+        echo $calObj->$act($item);
+        unset($_SESSION['started']);
+    }
 }
-$act = $doAction['method'];
-echo $calObj->$act($id);      // directly referencing $doAction['method'] never works here.
-
 /* declare(strict_types=1);  not supported in production env 
 $status = session_status();
 if ($status == PHP_SESSION_NONE)
