@@ -1,6 +1,8 @@
 <?php
 
 class Params {
+
+    private $eventStyle = array("zro", "one", "two", "thr", "for", "fiv", "six", "sev", "eig", "nin");
                                     // eventually eventType and remText will load from DB key tables
     private $eventType = array(
         "name"  => "event_type",
@@ -34,6 +36,10 @@ class Params {
             $this->hour[sprintf('%02d', $h)] = sprintf('%02d', $h);
         for ($n = 0; $n < 60; $n++)
             $this->min[sprintf('%02d', $n)] = sprintf('%02d', $n);
+    }
+    public function getEventStyle($nm) {
+        $lim = count($this->eventStyle);
+        return ($nm < $lim) ? $this->eventStyle[$nm] : $this->eventStyle[0];
     }
     public function getEventFields() {
         return $this->eventField;

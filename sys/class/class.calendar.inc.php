@@ -91,11 +91,12 @@ class Calendar extends DB_Connect {
                 if (isset($events[$c])) {
                     foreach($events[$c] as $event) {
                         $title = $event->title;
+                        $type = $this->params->getEventStyle($event->type);
                         if (strlen($title) > 15) {                  // add 15 to a global class 
                             $title = substr($title, 0, 13);         // add 13 to a global class - how to compensate for length of line
                             $title .= "...";
                         }
-                        $link = '<a href="view.php?event_id=' . $event->id . '">' . $title . '</a>';
+                        $link = '<a class="event ' .$type. '" href="view.php?event_id=' . $event->id . '">' . $title . '</a>';
                         $eventInfo .= "\n\t\t$link";
                     }
                 }
