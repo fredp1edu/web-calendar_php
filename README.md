@@ -12,15 +12,14 @@ Notes:
 *   There's some presentation issue with the formatting of day boxes that are not calendar dates. While view source code shows the right coding, the DOM is actually doing something different. Have to check CSS and how calendar is built.
 *   SPECIAL NOTE: THIS APP CURRENTLY HAS NO VALIDATION OF INPUTS -- So it is still possible to input an invalid date or an end time  that is earlier than the start time. An invalid date may freeze stuff up right now. I will be adding front-end and back-end validation shortly.
 
-*   Once it goes online: to log in:  caltester fpProj2017! 
-    *   If things don't work at all, I'm having a small issue with the mysql db with my ISP - to be resolved shortly.
+*   Online now. to log in:  caltester fpProj2017! 
 
 NEXT TO DO:
 1.  Complete day and month view - possible batch deletion of entries through month and day views.
 2.  Need to limit the amount of events displayed per day, have a ---more--- link that links to a full day view
 3.  Add jquery enhancements, add front and back end form validation (basically go back to where left off from book and finish it)
 4.  Allow for creation of multiple reminders for one event by creation a separate reminder table. Set up a reminder class to check for reminders and display as an alert upon initial calendar display. 
-5.  Remove holiday events from event listings, add a symbol to calendar to denote holiday, change color of day, add link and title describing holiday.
-6.  Look into online API that lists holidays and make separate table for that to auto-populate calendar.
+5.  Remove holiday events from event listings, add a symbol to calendar to denote holiday, change color of day, add link and title describing holiday. Make holiday events undeletable, title field uneditable.
+6.  Look into online API that lists holidays and make separate table for that to auto-populate calendar at the beginning of each year.
 7.  Allow events to span days. 
 8.  Turn calendar app into enterprise app that allows multiple users to create proprietary calendar.

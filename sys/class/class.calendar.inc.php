@@ -157,12 +157,17 @@ class Calendar extends DB_Connect {
         $optBoxMonthS = $this->params->getOptionSet("month", date('m', $timeS));
         $optBoxDateS = $this->params->getOptionSet("date", date('d', $timeS));
         $optBoxHourS = $this->params->getOptionSet("hour", date('H', $timeS));
-        $optBoxMinS = $this->params->getOptionSet("min", date('i', $timeS));
         $optBoxYearE = $this->params->getOptionSet("year", date('Y', $timeE));
         $optBoxMonthE = $this->params->getOptionSet("month", date('m', $timeE));
         $optBoxDateE = $this->params->getOptionSet("date", date('d', $timeE));
         $optBoxHourE = $this->params->getOptionSet("hour", date('H', $timeE));
-        $optBoxMinE = $this->params->getOptionSet("min", date('i', $timeE));
+        if ($event->id == NULL) {
+            $optBoxMinS = $this->params->getOptionSet("min", sprintf('%02d', 0));
+            $optBoxMinE = $this->params->getOptionSet("min", sprintf('%02d', 0));    
+        } else {
+            $optBoxMinS = $this->params->getOptionSet("min", date('i', $timeS));
+            $optBoxMinE = $this->params->getOptionSet("min", date('i', $timeE));
+        }
         $selectBoxType = $this->params->getSelectBox("type", $event->type);
         $selectBoxRem = $this->params->getSelectBox("rem", $event->rem);
         
