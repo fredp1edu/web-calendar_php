@@ -1,4 +1,7 @@
-body {
+img {
+    max-width: 100%;
+}
+    body {
     background-color: rgb(119,136, 153);
     font-family: "Georgia", serif;
     font-size 1em;
@@ -16,10 +19,44 @@ body {
     box-shadow: 0 0 14px rgb(17,34,51);
 }
 h2, p {
+    font-size: 1.3rem;
     margin: 0 auto 14px;
     text-align: center;
 }
-
+p {
+    margin: 0 auto 14px;
+    text-align: left;
+}
+.calHead {
+    width: 100%;
+    margin-bottom: 2%;
+    background-color: rgb(240,248,255);
+}
+.calHeadSec {
+    width: 25%;
+    margin-left: 9%;
+    display: inline;
+}
+.calHeadSec figure {
+    margin: 0;
+    display: inline;
+}
+.calHeadFig {
+    margin: 0;
+    width: 20px;
+    display: inline;
+}
+.calMonthYr {
+    font-size: 1.4rem;
+    font-weight: 900;
+}
+.calHead a {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin: 0;
+    text-decoration: none;
+    font-style: italic;
+}
 ul {
     display: block;
     clear: left;
@@ -47,18 +84,9 @@ li {
     background-color: rgb(255,255,255);
 }
 li:hover {
-    background-color: rgb(255,204,107);
+    background-color: rgb(240,248,255);
     z-index: 1;
-    box-shadow: 0 0 0 3px rgb(119,136,153);
-}
-.calHead a {
-    margin: 0 0 5% 7%;
-    text-decoration: none;
-    font-style: italic;
-}
-.calMonthYr {
-    font-size: 1.3rem;
-    font-weight: 900;
+    box-shadow: 0 0 1px 2px rgb(119,136,153);
 }
 .weekdays li {
     height: 34px;
@@ -123,7 +151,18 @@ li strong {
 .today {
     background-color: rgb(240,230,140);
 }
-
-
-
-
+.dispDayItem {
+    margin-bottom: 3%;
+    font-size: 1.1rem;
+}
+.dispTime {
+    font-style: italic;
+}
+.dispTitle {
+    margin-left: 2%;
+    font-size: 1.2rem;
+    font-weight: 900;
+}
+.dispLoc, .dispDesc {
+    margin-left: 22%;
+}

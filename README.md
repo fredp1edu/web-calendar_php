@@ -9,16 +9,18 @@ I will reproduce the calendar project as it is in the book, but will make a few 
 *   Automated form input collection and db processing through creation and use of a constants parameters class.
 *   Added a few lines so that if the event title exceeds one line in the calendar, it will be truncated and "..." added after. Using the PHP string length method works for now but isn't the best since it doesn't compensate for proportionally spaced fonts. I can either make the event title a monospaced font (which I don't want to do), or (better) see if HTML/CSS can handle this issue better than PHP.
 *   Added select boxes for event type, reminder, event start and end times. All boxes update during editing process. 
+*   Added a day view.
 Notes:
 *   There's some presentation issue with the formatting of day boxes that are not calendar dates. While viewing the source code shows the right coding, the DOM is actually doing something different. The coding in buildCalendar is very.... interesting. It works, but I keep thinking of another approach: a 2-dimension array 7x4 grid that uses a nested loop to traverse each cell. Will work on that later.
 *   SPECIAL NOTE: THIS APP CURRENTLY HAS NO VALIDATION OF INPUTS -- So it is still possible to input an invalid date or an end time  that is earlier than the start time. An invalid date may freeze stuff up right now. I will be adding front-end and back-end validation shortly.
 
 *   Online now. to log in:  caltester fpProj2017! 
 
-    * Just one favor:  please do not edit or delete the holiday entries (thanksgiving, vet's day, christmas, etc) for now. Holidays are special cases which won't be editable or deleteable after the next push.
+    * Just one favor:  please do not delete the holiday entries (thanksgiving, vet's day, christmas, etc) for now. Holidays are special cases which won't be deleteable after the next push.
 
 NEXT TO DO:
-1.  Complete day and month view - possible batch deletion of entries through month and day views.
+1.  Add month view - possible batch deletion of entries through month and day views.
+    1a. Add day and month views to jquery modal windows.
 2.  Need to limit the amount of events displayed per day, have a ---more--- link that links to a full day view
 3.  Add jquery enhancements, add front and back end form validation (basically go back to where left off from book and finish it)
 4.  Allow for creation of multiple reminders for one event by creation a separate reminder table. Set up a reminder class to check for reminders and display as an alert upon initial calendar display. 

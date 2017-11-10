@@ -76,17 +76,7 @@ class Calendar extends DB_Connect {
             return NULL;
     }
     public function buildCalendar() {
-        $calendarMonth = date('F Y', strtotime($this->_useDate));
-        $weekdays = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
-        $html = '<section class="calHead">
-        <a href="./?change=-1year">-&#60;&#60;&#60; year</a><a href="./?change=-1month">-&#60;&#60; month</a>
-        <a href="./?change=today" class="calMonthYr" title="Click here for current date">' . $calendarMonth . '</a>
-        <a href="./?change=%2b1month">month &#62;&#62;+</a><a href="./?change=%2b1year">year &#62;&#62;&#62;+</a></section>';
-        for ($d=0, $labels=NULL; $d < 7; ++$d) {
-            $labels .= "\n\t\t<li>" . $weekdays[$d] . "</li>";
-        }
-        $html .= "\n\t<ul class=\"weekdays\">" . $labels . "\n\t</ul>";
-        
+        include_once 'assets/inc/calhead.inc.php';          //calendar header in a separate file 
         $events = $this->_createEventObj();
         $html .= "\n\t<ul>";
         for ($i = 1, $c = 1, $t = date('j'), $m = date('m'), $y = date('Y'); $c <= $this->_daysInMonth; ++$i) {
@@ -112,7 +102,7 @@ class Calendar extends DB_Connect {
                 }
                 $mo = date('F', strtotime($this->_useDate));
                 $click = "title=\"Click here for $mo $c events\"";
-                $date = sprintf("\n\t\t\t<strong><a href=\"view.php?day=%d\" %s class=\"dateNum\">%02d</a></strong>", 
+                $date = sprintf("\n\t\t\t<strong><a href=\"view.php?day_event=%d\" %s class=\"dateNum\">%02d</a></strong>", 
                                 $c, $click, $c++);
             } else 
                 $date = "&nbsp;";
@@ -128,6 +118,9 @@ class Calendar extends DB_Connect {
         $admin = $this->_adminGeneralOptions();
         
         return $html . $admin;
+    }
+    public function formatDisplay($ev) {
+        
     }
     public function displayEvent($id) {
         if (empty($id))
@@ -155,12 +148,24 @@ class Calendar extends DB_Connect {
             return NULL;
         $d = "*" . $d;
         $events = array();
-        $events = _loadEventData($d);
+        $events = $this->_loadEventData($d);
+        $admin = $this->_adminGeneralOptions();
         $rows = mysqli_num_rows($events);
-        if ($rows == 0) {
-            $admin = _adminGeneralOptions();
+        if ($rows == 0)
             return "There are no entries for this date" . $admin;
+        $dispDate = date('l, F j, Y', strtotime($this->_useDate));
+        $display = "<h2>Events for $dispDate</h2>";
+        for ($i = 0; $i < $rows; $i++) {
+            $ev = mysqli_fetch_assoc($events);
+            $start = date('g:ia', strtotime($ev['event_start']));
+            $end = date('g:ia', strtotime($ev['event_end']));
+            $display .= "<section class=\"dispDayItem\"><span class=\"dispTime\">$start &mdash; $end</span>\n" .
+                        "<a href=\"view.php?event_id=$ev[event_id]\" class=\"dispTitle\">$ev[event_title]</a>\n" .
+                        "<aside class=\"dispLoc\">$ev[event_loc]</aside>\n" .
+                        "<aside class=\"dispDesc\">$ev[event_desc]</aside></section>\n";
         }
+        $display .= $admin;
+        return $display;
     }
     public function displayForm() {
         if (isset($_POST['event_id']))
@@ -171,37 +176,44 @@ class Calendar extends DB_Connect {
         $event = new Event('form');
         $event->start = $this->_useDate;
         $event->end = date('Y-m-d H:i:s', strtotime($event->start . '+ 1 hour'));
-        $fieldDisable = NULL;
-        $holidayType = NULL;
         if (!empty($id)) {
             $event = $this->_loadEventById($id);
-            if ($event->type == 9) {
-                $fieldDisable = "readonly";
-                $holidayType = "<input type=\"hidden\" name=\"event_type\" value=9 />";
-            }        
             if (!is_object($event))
                 return NULL;
             $submit = "Edit This Event";
         }
         $timeS = strtotime($event->start);
         $timeE = strtotime($event->end);
-        $optBoxYearS = $this->params->getOptionSet("year", date('Y', $timeS));
-        $optBoxMonthS = $this->params->getOptionSet("month", date('m', $timeS));
-        $optBoxDateS = $this->params->getOptionSet("date", date('d', $timeS));
-        $optBoxHourS = $this->params->getOptionSet("hour", date('H', $timeS));
-        $optBoxYearE = $this->params->getOptionSet("year", date('Y', $timeE));
-        $optBoxMonthE = $this->params->getOptionSet("month", date('m', $timeE));
-        $optBoxDateE = $this->params->getOptionSet("date", date('d', $timeE));
-        $optBoxHourE = $this->params->getOptionSet("hour", date('H', $timeE));
+        $sYear = date('Y', $timeS);
+        $sMonth = date('m', $timeS);
+        $sDate = date('d', $timeS);
+        $sHour = date('H', $timeS);
+        $sMin = date('i', $timeS);
+        $eYear = date('Y', $timeE);
+        $eMonth = date('m', $timeE);
+        $eDate = date('d', $timeE);
+        $eHour = date('H', $timeE);
+        $eMin = date('i', $timeE);
+        $selectBoxRem = $this->params->getSelectBox("rem", $event->rem);
+        if ($event->type == 9) {
+            return include 'assets/inc/editformhol.inc.php';    
+        }        
+        $optBoxYearS = $this->params->getOptionSet("year", $sYear);
+        $optBoxMonthS = $this->params->getOptionSet("month", $sMonth);
+        $optBoxDateS = $this->params->getOptionSet("date", $sDate);
+        $optBoxHourS = $this->params->getOptionSet("hour", $sHour);
+        $optBoxYearE = $this->params->getOptionSet("year", $eYear);
+        $optBoxMonthE = $this->params->getOptionSet("month", $eMonth);
+        $optBoxDateE = $this->params->getOptionSet("date", $eDate);
+        $optBoxHourE = $this->params->getOptionSet("hour", $eHour);
         if ($event->id == NULL) {
             $optBoxMinS = $this->params->getOptionSet("min", sprintf('%02d', 0));
             $optBoxMinE = $this->params->getOptionSet("min", sprintf('%02d', 0));    
         } else {
-            $optBoxMinS = $this->params->getOptionSet("min", date('i', $timeS));
-            $optBoxMinE = $this->params->getOptionSet("min", date('i', $timeE));
+            $optBoxMinS = $this->params->getOptionSet("min", $sMin);
+            $optBoxMinE = $this->params->getOptionSet("min", $eMin);
         }
         $selectBoxType = $this->params->getSelectBox("type", $event->type);
-        $selectBoxRem = $this->params->getSelectBox("rem", $event->rem);
         
         return include 'assets/inc/editform.inc.php';
     }

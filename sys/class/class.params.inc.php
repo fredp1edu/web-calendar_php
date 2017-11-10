@@ -2,6 +2,7 @@
 
 class Params {
 
+    private $weekdays = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
     private $eventStyle = array("zro", "one", "two", "thr", "for", "fiv", "six", "sev", "eig", "nin");
                                     // eventually eventType and remText will load from DB key tables
     private $eventType = array(
@@ -38,6 +39,9 @@ class Params {
         for ($n = 0; $n < 60; $n++)
             $this->min[sprintf('%02d', $n)] = sprintf('%02d', $n);
     }
+    public function getWeekdays() {
+        return $this->weekdays;
+    }
     public function getEventStyle($nm) {
         $lim = count($this->eventStyle);
         return ($nm < $lim) ? $this->eventStyle[$nm] : $this->eventStyle[0];
@@ -59,16 +63,14 @@ class Params {
     }
     public function getSelectBox($type, $select) {
         $select = (int) $select;
-        $disable = NULL;
+    
         if ($type == "type") {
             $arr = $this->eventType;
-            if ($select == $this->HOLIDAY_NUM)            // disable changing of "holiday" #9 types
-                $disable = "disabled";
         } else {
             $arr = $this->remText;
         } 
         $count = count($arr["txt"]);
-        $box = "<select class=\"selBox\" name=\"" .$arr["name"]. "\" id=\"" .$arr["name"]. "\" " .$disable. ">\n";
+        $box = "<select class=\"selBox\" name=\"" .$arr["name"]. "\" id=\"" .$arr["name"]. "\">\n";
         for ($i = 0; $i < $count; $i++) {
             $selTxt = ($i == $select) ? "selected" : NULL;
             $box .= "\t<option value=\"$i\" " .$selTxt. ">" .$arr["txt"][$i]. "</option>\n";

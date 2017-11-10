@@ -35,7 +35,6 @@ $('document').ready(function() {
 	
     $('body').on('click', '.event', function(event) {
     	event.preventDefault();
-    	$(this).unbind('click');
     	$(this).addClass("active");
     	var data = $(this)
     					.attr('href')
@@ -57,7 +56,6 @@ $('document').ready(function() {
     		data: "action=event_view&" + data,
     		success: function(data) {
     			fx.boxIn(data, modal);
-    			$(this).bind('click');
     		},
     		error: function(msg) {
     			modal.append(msg);

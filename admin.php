@@ -9,7 +9,8 @@
     $css_files = array('style.css', 'admin.css');
     include_once 'assets/common/header.inc.php';
 
-    $cal = new Calendar($dbo);
+    $calDay = $_SESSION['calDay'];
+    $cal = new Calendar($dbo, $calDay);
 
 /* declare(strict_types=1); unsupported in production env. using old version of PHP  */
 ?>

@@ -1,25 +1,38 @@
 <?php
-    if (isset($_GET['event_id'])) {
-        $id = preg_replace('/[^0-9]/', '', $_GET['event_id']);
-        $doAction = "displayEvent";
-        if (empty($id)) {
-            header("Location: ./");
-            exit;
-        } 
-    } else {
+require_once 'sys/core/init.inc.php';
+$calDay = NULL;
+
+if (isset($_GET['event_id'])) {
+    $item = preg_replace('/[^0-9]/', '', $_GET['event_id']);
+    $doAction = "displayEvent";
+    if (empty($item)) {
         header("Location: ./");
         exit;
-    }
-    require_once 'sys/core/init.inc.php';
+    } 
+} 
+elseif (isset($_GET['day_event'])) {
+    $item = $_GET['day_event'];
+    $sessDate = strtotime($_SESSION['calDay']);
+    $year = date('Y', $sessDate);
+    $month = date('m', $sessDate);
+    $time = date('G:i:s', $sessDate);
+    $sessDay = sprintf('%02d', $item);
+    $calDay = "$year-$month-$sessDay $time";
+    $_SESSION['calDay'] = $calDay;
+    $doAction = "displayDayEvents";
+}
+else {
+    header("Location: ./");
+    exit;
+}
+$page_title = "View and Edit Page";
+$css_files = array('style.css', 'admin.css');
+include_once 'assets/common/header.inc.php';
 
-    $page_title = "View and Edit Page";
-    $css_files = array('style.css');
-    include_once 'assets/common/header.inc.php';
-
-    $cal = new Calendar($dbo);
+$cal = new Calendar($dbo, $calDay);
 ?>
 <div id="content">
-    <?php echo $cal->$doAction($id); ?>
+    <?php echo $cal->$doAction($item); ?>
     <a href="./">&laquo; Back to the calendar</a>
 </div>
 

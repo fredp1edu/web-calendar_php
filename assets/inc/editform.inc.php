@@ -4,7 +4,7 @@ return <<<FORM_MARKUP
 <fieldset>
 <legend>$submit</legend>
 <label for "event_title">Event Title:</label>
-    <input type="text" name="event_title" id="event_title" value="$event->title" required $fieldDisable />
+    <input type="text" name="event_title" id="event_title" value="$event->title" required />
 <label for "event_type">Type:</label>
     $selectBoxType
 <label for "event_start">Start Time:</label>
@@ -48,7 +48,6 @@ return <<<FORM_MARKUP
     $selectBoxRem
 <input type="hidden" name="event_id" value="$event->id" />
 <input type="hidden" name="token" value="$_SESSION[token]" />
-$holidayType
 <input type="hidden" name="action" value="event_edit" />
 <button type="submit" id="btnEdit">$submit</button> or <a href="./">cancel</a>
 </fieldset>
