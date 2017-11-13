@@ -31,6 +31,7 @@ p {
     width: 100%;
     margin-bottom: 2%;
     background-color: rgb(240,248,255);
+    padding: .8% 0;
 }
 .calHeadSec {
     width: 25%;
@@ -89,8 +90,8 @@ li:hover {
     box-shadow: 0 0 1px 2px rgb(119,136,153);
 }
 .weekdays li {
-    height: 34px;
-    padding: 2px 2px;
+    height: 40px;
+    padding: 3px 2px 0;
     background-color: rgb(187,204,255);
 }
 .weekdays li:hover, li.fill:hover {
@@ -112,15 +113,16 @@ li strong {
     border: 1px dashed rgb(0,0,0);
     margin: 2px;
     padding: 2px;
-    font-size: .7rem;
+    font-family: Verdana, sans-serif;
+    font-size: .6rem;
     background-color: rgb(221,235,255);
     text-align: left;
     border-radius: 6px;
     z-index: 1;
     text-decoration: none;
     color: rgb(0,0,0);
-    font-weight: 900;
-    font-style: italic;
+    font-weight: 600;
+    font-style: normal;
 }
 .event a:hover {
     background-color: rgb(107,204,221);

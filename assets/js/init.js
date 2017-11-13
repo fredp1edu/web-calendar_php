@@ -33,7 +33,7 @@ var fx = {
 };
 $('document').ready(function() {
 	
-    $('body').on('click', '.event', function(event) {
+    $('body').on('click', '.event, .dispTitle', function(event) {
     	event.preventDefault();
     	$(this).addClass("active");
     	var data = $(this)

@@ -21,12 +21,18 @@ elseif (isset($_GET['day_event'])) {
     $_SESSION['calDay'] = $calDay;
     $doAction = "displayDayEvents";
 }
+elseif (isset($_GET['month_event'])) {
+    $item = NULL;
+    $calDay = $_SESSION['calDay'];
+    $doAction = "displayMonthEvents";
+}
+
 else {
     header("Location: ./");
     exit;
 }
 $page_title = "View and Edit Page";
-$css_files = array('style.css', 'admin.css');
+$css_files = array('style.css', 'admin.css', 'ajax.css');
 include_once 'assets/common/header.inc.php';
 
 $cal = new Calendar($dbo, $calDay);

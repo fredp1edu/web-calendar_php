@@ -14,7 +14,7 @@ class Params {
         "txt"   => array("No reminder", "10 min", "15 min", "30 min", "1 hour", "3 hours", "12 hours", "1 day")
     );    
     private $HOLIDAY_NUM = 9;
-    private $EVENT_CHAR_LIMIT = 17;
+    private $EVENT_CHAR_LIMIT = 16;
     
     private $formFieldEvent = array("event_title", "event_type", "event_loc", "event_desc", "event_rem",
                                     "event_sMonth", "event_sYear", "event_sDate", "event_sHour", "event_sMin",
@@ -50,7 +50,8 @@ class Params {
         return $this->eventField;
     }
     public function getEventType($num) {
-        return ($num == $this->HOLIDAY_NUM) ? NULL : "Event type: " .$this->eventType["txt"][$num];
+        $count = count($this->eventType['txt']);
+        return ($num < $count) ? "Event type: " .$this->eventType["txt"][$num] : NULL;
     }
     public function getRemText($num) {
         return $this->remText["txt"][$num];

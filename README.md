@@ -16,8 +16,6 @@ Notes:
 
 *   Online now. to log in:  caltester fpProj2017! 
 
-    * Just one favor:  please do not delete the holiday entries (thanksgiving, vet's day, christmas, etc) for now. Holidays are special cases which won't be deleteable after the next push.
-
 NEXT TO DO:
 1.  Add month view - possible batch deletion of entries through month and day views.
     1a. Add day and month views to jquery modal windows.

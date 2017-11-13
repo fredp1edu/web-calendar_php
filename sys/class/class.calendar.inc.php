@@ -92,8 +92,8 @@ class Calendar extends DB_Connect {
                     foreach($events[$c] as $event) {
                         $title = $event->title;
                         $type = $this->params->getEventStyle($event->type);
-                        if (strlen($title) > $ecl) {                  // add 15 to a global class 
-                            $title = substr($title, 0, $ecl);         // add 13 to a global class - how to compensate for length of line
+                        if (strlen($title) > $ecl) {               
+                            $title = substr($title, 0, $ecl);   // this substr works differently for differnt lines. 
                             $title .= "...";
                         }
                         $link = '<a class="event ' .$type. '" href="view.php?event_id=' . $event->id . '">' . $title . '</a>';
@@ -132,8 +132,11 @@ class Calendar extends DB_Connect {
         $start = date('g:ia', $tStart);
         $end = date('g:ia', strtotime($event->end));
         $rem = ($event->rem == 0) ? "no reminder set" : $this->params->getRemText($event->rem) . " before the appt";
-        $admin = $this->_adminEntryOptions($id);
         $type = $this->params->getEventType($event->type);
+        if ($type == NULL)
+            $admin = $this->_adminEntryOptions($id, 1);
+        else
+            $admin = $this->_adminEntryOptions($id);
         
         return "<h2>$event->title</h2>" .
                 "\n\t<p class=\"para date\">Date: $date</p>" . 
@@ -166,6 +169,9 @@ class Calendar extends DB_Connect {
         }
         $display .= $admin;
         return $display;
+    }
+    public function displayMonthEvents() {
+        
     }
     public function displayForm() {
         if (isset($_POST['event_id']))
@@ -277,8 +283,14 @@ ADMIN_OPTIONS;
 ADMIN_OPTIONS;
         }
     }
-    private function _adminEntryOptions($id) {
+    private function _adminEntryOptions($id, $delBtn=NULL) {
         if (isset($_SESSION['user'])) {
+            if ($delBtn == NULL) {
+                $del = "<form action=\"confirmdelete.php\" method=\"POST\">\n<p>\n" .
+                            "<input class=\"btnDel\" type=\"submit\" name=\"delete_event\" value=\"Delete This Event\" />\n" .
+                            "<input type=\"hidden\" name=\"event_id\" value=\"$id\" /></p>\n</form>\n";
+            } else
+                $del = NULL;
             return <<<ADMIN_OPTIONS
         <div class="admin-options">
         <form action="admin.php" method="POST">
@@ -287,11 +299,8 @@ ADMIN_OPTIONS;
         <input type="hidden" name="event_id" value="$id" />
         <p>
         </form>
-        <form action="confirmdelete.php" method="POST">
-        <p>
-        <input type="submit" name="delete_event" value="Delete This Event" />
-        <input type="hidden" name="event_id" value="$id" />
-        </p></form></div>
+        $del
+        </div>
 ADMIN_OPTIONS;
         } else {
             return NULL;
