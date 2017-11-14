@@ -115,12 +115,15 @@ class Calendar extends DB_Connect {
         }
         $html .= "\n\t</ul>\n\n";
         
+        $logStat = (isset($_SESSION['user'])) ? "in" : "out";
         $admin = $this->_adminGeneralOptions();
+        $calFoot = "<section class=\"calFoot\">\n\t" .
+                    "<a href=\"view.php?month_event\"><button class=\"btnMonth\" type=\"button\" >" .
+                    "Month Events View</button></a>&nbsp;\n$admin</section>\n" .
+                    "<section class=\"calFootTxt\"><p>Click on any calendar date to view the day events.<p>\n" .
+                    "<p>You are currently logged $logStat.</p>\n ";
         
-        return $html . $admin;
-    }
-    public function formatDisplay($ev) {
-        
+        return $html . $calFoot;
     }
     public function displayEvent($id) {
         if (empty($id))
@@ -146,6 +149,14 @@ class Calendar extends DB_Connect {
                 "\n\t<p class=\"para date\">$type </p> " .
                 "\n\t<p class=\"para date\">Reminder: $rem</p>" . $admin;
     }
+    private function _formatDispEvent($ev) {
+        $start = date('g:ia', strtotime($ev->start));
+        $end = date('g:ia', strtotime($ev->end));
+        return "<section class=\"dispDayItem\"><span class=\"dispTime\">$start &mdash; $end</span>\n" .
+                    "<a href=\"view.php?event_id=$ev->id\" class=\"dispTitle\">$ev->title</a>\n" .
+                    "<aside class=\"dispLoc\">$ev->loc</aside>\n" .
+                    "<aside class=\"dispDesc\">$ev->desc</aside>\n</section>\n";
+    }
     public function displayDayEvents($d) {
         if (empty($d))
             return NULL;
@@ -154,10 +165,10 @@ class Calendar extends DB_Connect {
         $events = $this->_loadEventData($d);
         $admin = $this->_adminGeneralOptions();
         $rows = mysqli_num_rows($events);
-        if ($rows == 0)
-            return "There are no entries for this date" . $admin;
         $dispDate = date('l, F j, Y', strtotime($this->_useDate));
         $display = "<h2>Events for $dispDate</h2>";
+        if ($rows == 0)
+            return $display . "There are no entries for this date" . $admin;
         for ($i = 0; $i < $rows; $i++) {
             $ev = mysqli_fetch_assoc($events);
             $start = date('g:ia', strtotime($ev['event_start']));
@@ -171,7 +182,19 @@ class Calendar extends DB_Connect {
         return $display;
     }
     public function displayMonthEvents() {
-        
+        $monthEvents = $this->_createEventObj();
+        $admin = $this->_adminGeneralOptions();
+        $dispDate = date('F Y', strtotime($this->_useDate));
+        $display = "<h2>Events for $dispDate</h2>\n";
+        if ($monthEvents == NULL) 
+            return $display . "There are no events posted for this month" . $admin;
+        foreach ($monthEvents as $day => $events) {
+            $display .= "<h3 class=\"dispMonthDate\">$day</h3>\n";
+            foreach($events as $event) {
+                $display .= $this->_formatDispEvent($event);
+            }
+        }
+        return $display . $admin;
     }
     public function displayForm() {
         if (isset($_POST['event_id']))
@@ -268,18 +291,16 @@ class Calendar extends DB_Connect {
     private function _adminGeneralOptions() {
         if (isset($_SESSION['user'])) {
             return <<<ADMIN_OPTIONS
-        <a href="admin.php" class="admin">+ Add a New Event</a>
-        <form action="assets/inc/process.inc.php" method="POST">
-            <div>
-                <input type="submit" value="Log Out" class="logout" />
-                <input type="hidden" name="token" value="$_SESSION[token]" />
-                <input type="hidden" name="action" value="user_logout" />
-            </div>
+        <a href="admin.php"><button type="button" class="admin btnAdd">+ Add a New Event</button></a>&nbsp;
+        <form class="logout" action="assets/inc/process.inc.php" method="POST">            
+            <button type="submit" class="btnLogout">Log Out</button>
+            <input type="hidden" name="token" value="$_SESSION[token]" />
+            <input type="hidden" name="action" value="user_logout" />
         </form>
 ADMIN_OPTIONS;
         } else {
             return <<<ADMIN_OPTIONS
-        <a href="login.php" class="admin">Log In</a>
+        <button formaction="login.php" type="submit" formmethod="get" class="admin btnlogin">Log In</button>
 ADMIN_OPTIONS;
         }
     }

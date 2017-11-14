@@ -12,7 +12,7 @@ input[type=text], input[type=password], label {
 }
 textarea {
     width: 90%;
-    height: 200px;
+    height: 150px;
 }
 input[type=text], input[type=password], textarea {
     border: 1px solid rgb(0,0,0);

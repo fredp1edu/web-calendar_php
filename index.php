@@ -28,7 +28,5 @@
 </div>
 
 <?php
-echo (isset($_SESSION['user'])) ? "Logged In!" : "Logged Out!";
-echo "<br /> $calDay";
 include_once 'assets/common/footer.inc.php'; 
 ?>

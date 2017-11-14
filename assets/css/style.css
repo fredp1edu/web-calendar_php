@@ -153,6 +153,19 @@ li strong {
 .today {
     background-color: rgb(240,230,140);
 }
+.calFoot {
+    width: 38%;
+    text-align: center;
+    margin: 2% auto 1%;
+    padding: 1%;
+    border-radius: 30px;
+    border: 2px solid rgb(187,204,255);
+}
+.calFootTxt p {
+    font-family: Verdana, sans-serif;
+    font-size: .7rem;
+    margin: 0;
+}
 .dispDayItem {
     margin-bottom: 3%;
     font-size: 1.1rem;
@@ -167,4 +180,7 @@ li strong {
 }
 .dispLoc, .dispDesc {
     margin-left: 22%;
+}
+form.logout, .btnLogout {
+    display: inline;
 }
