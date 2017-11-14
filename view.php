@@ -39,7 +39,7 @@ $cal = new Calendar($dbo, $calDay);
 ?>
 <div id="content">
     <?php echo $cal->$doAction($item); ?>
-    <a href="./">&laquo; Back to the calendar</a>
+    <a href="./"><button class="btnCal" type="button">&laquo; Calendar View</button></a>
 </div>
 
 <?php include_once 'assets/common/footer.inc.php'; ?>

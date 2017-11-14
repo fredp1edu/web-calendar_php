@@ -170,16 +170,10 @@ class Calendar extends DB_Connect {
         if ($rows == 0)
             return $display . "There are no entries for this date" . $admin;
         for ($i = 0; $i < $rows; $i++) {
-            $ev = mysqli_fetch_assoc($events);
-            $start = date('g:ia', strtotime($ev['event_start']));
-            $end = date('g:ia', strtotime($ev['event_end']));
-            $display .= "<section class=\"dispDayItem\"><span class=\"dispTime\">$start &mdash; $end</span>\n" .
-                        "<a href=\"view.php?event_id=$ev[event_id]\" class=\"dispTitle\">$ev[event_title]</a>\n" .
-                        "<aside class=\"dispLoc\">$ev[event_loc]</aside>\n" .
-                        "<aside class=\"dispDesc\">$ev[event_desc]</aside></section>\n";
+            $event = new Event(mysqli_fetch_assoc($events));
+            $display .= $this->_formatDispEvent($event);
         }
-        $display .= $admin;
-        return $display;
+        return $display . $admin;
     }
     public function displayMonthEvents() {
         $monthEvents = $this->_createEventObj();
@@ -300,7 +294,7 @@ class Calendar extends DB_Connect {
 ADMIN_OPTIONS;
         } else {
             return <<<ADMIN_OPTIONS
-        <button formaction="login.php" type="submit" formmethod="get" class="admin btnlogin">Log In</button>
+        <a href="login.php"><button type="button" class="admin btnlogin">Log In</button></a>
 ADMIN_OPTIONS;
         }
     }

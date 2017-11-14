@@ -20,7 +20,7 @@ NEXT TO DO:
 CSS prettying and tidying up along the way.
 1.  Add day and month views to jquery modal windows.
 2.  Need to limit the amount of events displayed per day, have a ---more--- link that links to a full day view
-3.  Add jquery enhancements, add front and back end form validation (basically go back to where left off from book and finish it)
+3.  Add jquery enhancements, add front and back end form validation (basically go back to where I left off in book and finish it)
 4.  Allow for batch deletion of entries in month and day views.
 5.  Allow for creation of multiple reminders for one event by creation a separate reminder table. Set up a reminder class to check for reminders and display as an alert upon initial calendar display. 
 6.  Remove holiday events from event listings on calendar, add a symbol to calendar day to denote holiday, change color of day, add link and title describing holiday.
