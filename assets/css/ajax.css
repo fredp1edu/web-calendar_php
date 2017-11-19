@@ -19,6 +19,20 @@
     background-color: rgb(255,255,255);
     border-radius: 6px;
     box-shadow: 0 0 14px rgb(17,34,51);
+    z-index: 6;
+}
+.modal-window2 {
+    position: absolute;
+    top: 140px;
+    left: 40%;
+    width: 500px;
+    height: auto;
+    margin-left: -150px;
+    padding: 20px;
+    border: 2px solid rgb(0,0,0);
+    background-color: rgb(255,255,255);
+    border-radius: 6px;
+    box-shadow: 0 0 14px rgb(17,34,51);
     z-index: 5;
 }
 .modal-close-btn {

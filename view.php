@@ -10,7 +10,7 @@ if (isset($_GET['event_id'])) {
         exit;
     } 
 } 
-elseif (isset($_GET['day_event'])) {
+elseif (isset($_GET['action']) && $_GET['action'] == 'day_view') {
     $item = $_GET['day_event'];
     $sessDate = strtotime($_SESSION['calDay']);
     $year = date('Y', $sessDate);
@@ -21,7 +21,7 @@ elseif (isset($_GET['day_event'])) {
     $_SESSION['calDay'] = $calDay;
     $doAction = "displayDayEvents";
 }
-elseif (isset($_GET['month_event'])) {
+elseif (isset($_GET['action']) && $_GET['action'] == 'month_view') {
     $item = NULL;
     $calDay = $_SESSION['calDay'];
     $doAction = "displayMonthEvents";

@@ -102,8 +102,7 @@ class Calendar extends DB_Connect {
                 }
                 $mo = date('F', strtotime($this->_useDate));
                 $click = "title=\"Click here for $mo $c events\"";
-                $date = sprintf("\n\t\t\t<strong><a href=\"view.php?day_event=%d\" %s class=\"dateNum\">%02d</a></strong>", 
-                                $c, $click, $c++);
+                $date = sprintf("\n\t\t\t<strong><a href=\"view.php?action=day_view&day_event=%d\" %s class=\"dateNum\">%02d</a></strong>", $c, $click, $c++);
             } else 
                 $date = "&nbsp;";
             $wrap = ($i != 0 && $i % 7 == 0) ? "\n\t</ul>\n\t<ul>" : NULL;
@@ -118,7 +117,7 @@ class Calendar extends DB_Connect {
         $logStat = (isset($_SESSION['user'])) ? "in" : "out";
         $admin = $this->_adminGeneralOptions();
         $calFoot = "<section class=\"calFoot\">\n\t" .
-                    "<a href=\"view.php?month_event\"><button class=\"btnMonth\" type=\"button\" >" .
+                    "<a href=\"view.php?action=month_view\" class=\"viewMonth\"><button class=\"btnMonth\" type=\"button\" >" .
                     "Month Events View</button></a>&nbsp;\n$admin</section>\n" .
                     "<section class=\"calFootTxt\"><p>Click on any calendar date to view the day events.<p>\n" .
                     "<p>You are currently logged $logStat.</p>\n ";
@@ -301,20 +300,18 @@ ADMIN_OPTIONS;
     private function _adminEntryOptions($id, $delBtn=NULL) {
         if (isset($_SESSION['user'])) {
             if ($delBtn == NULL) {
-                $del = "<form action=\"confirmdelete.php\" method=\"POST\">\n<p>\n" .
+                $del = "<form action=\"confirmdelete.php\" method=\"POST\">\n" .
                             "<input class=\"btnDel\" type=\"submit\" name=\"delete_event\" value=\"Delete This Event\" />\n" .
-                            "<input type=\"hidden\" name=\"event_id\" value=\"$id\" /></p>\n</form>\n";
+                            "<input type=\"hidden\" name=\"event_id\" value=\"$id\" />\n</form>\n";
             } else
                 $del = NULL;
             return <<<ADMIN_OPTIONS
         <div class="admin-options">
-        <form action="admin.php" method="POST">
-        <p>
-        <input type="submit" name="edit_event" value="Edit This Event" />
-        <input type="hidden" name="event_id" value="$id" />
-        <p>
-        </form>
-        $del
+            <form action="admin.php" method="POST">
+                <input type="submit" name="edit_event" value="Edit This Event" />
+                <input type="hidden" name="event_id" value="$id" />
+            </form>&nbsp;
+            $del
         </div>
 ADMIN_OPTIONS;
         } else {

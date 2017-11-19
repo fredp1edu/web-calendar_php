@@ -14,6 +14,14 @@ $actions = array(
         'object' => 'Calendar',
         'method' => 'displayEvent'
     ),
+    'day_view'   => array(
+        'object' => 'Calendar',
+        'method' => 'displayDayEvents'
+    ),
+    'month_view'   => array(
+        'object' => 'Calendar',
+        'method' => 'displayMonthEvents'
+    ),
     'edit_event' => array(
         'object' => 'Calendar',
         'method' => 'displayForm'
@@ -30,7 +38,9 @@ if (isset($actions[$_POST['action']])) {
         $dbo = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
         $calObj = new $doAction['object']($dbo);
         if (isset($_POST['event_id']))
-            $item = (int)$_POST['event_id'];
+            $item = (int) $_POST['event_id'];
+        elseif (isset($_POST['day_event']))
+            $item = (int) $_POST['day_event'];
         else
             $item = NULL;
         $act = $doAction['method'];  // directly referencing $doAction['method'] never works here.
