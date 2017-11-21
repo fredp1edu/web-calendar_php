@@ -15,6 +15,7 @@ class Params {
     );    
     private $HOLIDAY_NUM = 9;
     private $EVENT_CHAR_LIMIT = 16;
+    private $EVENT_LIST_LIMIT = 2;
     
     private $formFieldEvent = array("event_title", "event_type", "event_loc", "event_desc", "event_rem",
                                     "event_sMonth", "event_sYear", "event_sDate", "event_sHour", "event_sMin",
@@ -61,6 +62,9 @@ class Params {
     }
     public function getEventCharLimit() {
         return $this->EVENT_CHAR_LIMIT;
+    }
+    public function getEventListLimit() {
+        return $this->EVENT_LIST_LIMIT;
     }
     public function getSelectBox($type, $select) {
         $select = (int) $select;

@@ -105,7 +105,7 @@ $('document').ready(function() {
     		}
     	});
     });
-    $('body').on('click', '.dateNum, .viewMonth', function(event) {
+    $('body').on('click', '.viewDay, .viewMonth', function(event) {
     	event.preventDefault();
     	$(this).addClass("active");
     	var data = $(this)

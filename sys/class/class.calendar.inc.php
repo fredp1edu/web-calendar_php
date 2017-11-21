@@ -89,6 +89,8 @@ class Calendar extends DB_Connect {
             if ($this->_startDay < $i && $this->_daysInMonth >= $c) {
                 if (isset($events[$c])) {
                     $ecl = $this->params->getEventCharLimit();
+                    $lim = $this->params->getEventListLimit();              //PICKUP HERE!!!
+                    $count = 1;
                     foreach($events[$c] as $event) {
                         $title = $event->title;
                         $type = $this->params->getEventStyle($event->type);
@@ -96,13 +98,19 @@ class Calendar extends DB_Connect {
                             $title = substr($title, 0, $ecl);   // this substr works differently for differnt lines. 
                             $title .= "...";
                         }
-                        $link = '<a class="event ' .$type. '" href="view.php?event_id=' . $event->id . '">' . $title . '</a>';
+                        if ($count > $lim)
+                            $link = "<a class=\"viewDay more\" href=\"view.php?action=day_view&day_event=$c\">---more---</a>";
+                        else
+                            $link = '<a class="event ' .$type. '" href="view.php?event_id=' . $event->id . '">' . $title . '</a>';
                         $eventInfo .= "\n\t\t$link";
+                        if ($count > $lim)
+                            break;
+                        $count++;
                     }
                 }
                 $mo = date('F', strtotime($this->_useDate));
                 $click = "title=\"Click here for $mo $c events\"";
-                $date = sprintf("\n\t\t\t<strong><a href=\"view.php?action=day_view&day_event=%d\" %s class=\"dateNum\">%02d</a></strong>", $c, $click, $c++);
+                $date = sprintf("\n\t\t\t<strong><a href=\"view.php?action=day_view&day_event=%d\" %s class=\"viewDay\">%02d</a></strong>", $c, $click, $c++);
             } else 
                 $date = "&nbsp;";
             $wrap = ($i != 0 && $i % 7 == 0) ? "\n\t</ul>\n\t<ul>" : NULL;

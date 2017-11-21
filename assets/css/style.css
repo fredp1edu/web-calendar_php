@@ -103,7 +103,7 @@ li strong {
     top: 2px;
     right: 2px;
 }
-.dateNum {
+.viewDay {
     text-decoration: none;
     color: rgb(0,0,0);
 }
@@ -123,6 +123,7 @@ li strong {
     color: rgb(0,0,0);
     font-weight: 600;
     font-style: normal;
+    white-space: nowrap;
 }
 .event a:hover {
     background-color: rgb(107,204,221);
@@ -152,6 +153,15 @@ li strong {
 }
 .today {
     background-color: rgb(240,230,140);
+}
+.more {
+    display: block;
+    font-family: Verdana, sans-serif;
+    font-size: .6rem;
+    font-style: italic;
+    text-decoration: none;
+    color rgb(0,0,255);
+    margin-bottom: 0;
 }
 .calFoot {
     width: 38%;
