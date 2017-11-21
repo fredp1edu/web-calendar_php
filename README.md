@@ -7,7 +7,8 @@ I will reproduce the calendar project as it is in the book, but will make a few 
 *   Added 2 features: event type, and event reminder alerts (to be developed later). 
 *   Added month, year and current date navigation of calendar, the book example only used one static month.
 *   Automated form input collection and db processing through creation and use of a constants parameters class.
-*   Added a few lines so that if the event title exceeds one line in the calendar, it will be truncated and "..." added after. Using the PHP string length method works for now but isn't the best since it doesn't compensate for proportionally spaced fonts. I can either make the event title a monospaced font (which I don't want to do), or (better) see if HTML/CSS can handle this issue better than PHP.
+*   Added a few lines so that if the event title exceeds one line in the calendar, it will be truncated and "..." added after. Using the PHP string length method works for now but isn't the best since it doesn't compensate for proportionally spaced fonts. 
+*   Add a "----more---" feature for when there are too many events to fit in the calendar view.
 *   Added select boxes for event type, reminder, event start and end times. All boxes update during editing process. 
 *   Added a day and month view. Still have to work on the way they cascade in the jquery modal windows.
 Notes:
@@ -17,12 +18,11 @@ Notes:
 *   Online now. to log in:  caltester fpProj2017! 
 
 NEXT TO DO:
-1.  Need to limit the amount of events displayed per day, have a ---more--- link that links to a full day view
-2.  Add jquery enhancements, add front and back end form validation (basically go back to where I left off in book and finish it)
-3.  Allow for batch deletion of entries in month and day views.
-4.  Allow for creation of multiple reminders for one event by creation a separate reminder table. Set up a reminder class to check for reminders and display as an alert upon initial calendar display. 
-5.  Remove holiday events from event listings on calendar, add a symbol to calendar day to denote holiday, change color of day, add link and title describing holiday.
-6.  Look into online API that lists holidays and make separate table for that to auto-populate calendar at the beginning of each year.
-7.  Allow events to span days. 
-8.  Turn calendar app into enterprise app that allows multiple users to create proprietary calendar.
+1.  Add jquery enhancements, add front and back end form validation (basically go back to where I left off in book and finish it)
+2.  Allow for batch deletion of entries in month and day views.
+3.  Allow for creation of multiple reminders for one event by creation a separate reminder table. Set up a reminder class to check for reminders and display as an alert upon initial calendar display. 
+4.  Remove holiday events from event listings on calendar, add a symbol to calendar day to denote holiday, change color of day, add link and title describing holiday.
+5.  Look into online API that lists holidays and make separate table for that to auto-populate calendar at the beginning of each year.
+6.  Allow events to span days. 
+7.  Turn calendar app into enterprise app that allows multiple users to create proprietary calendar.
     CSS and HTML adjustments along each way.
